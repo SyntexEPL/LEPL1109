@@ -11,6 +11,8 @@
 
 \usepackage{styles}
 
+\newcommand{\ind}{\perp\!\!\!\!\perp}
+
 \title{Statistiques et science des données (LEPL1109)}
 \author{\textit{Réalisé par}\\\textbf{Quentin Aubecq}\\\textit{avec l'aide de}\\ \_ \\\textit{relu par}\\ \_}
 \date{2026}
@@ -24,7 +26,133 @@
 
 \break
 
-\section{Introduction}
+\section{Rappels}
+
+\subsection{Variable aléatoire}
+
+Une \textbf{variable aléatoire} est une fonction mesurable d'un espace $\Omega$ à un ensemble de nombres réels :
+$$X : \Omega \rightarrow \mathbb{R}$$
+
+On note $X(\omega) = x$
+
+\subsection{Distribution de probabilités}
+
+La \textbf{pmf} (probability mass function) $p(x)$ d'une variable aléatoire discrète, est une fonction qui associe une probabilité $P(X=x)$ à chaque valeur $x$ de $X$
+$$p(x) = P(X=x)$$
+Si le domaine de $X$ est $R=\{x_1,x_2,\dots\}$ alors $p(x) > 0 \; \forall x \in R$ et $p(x) = 0 \; \forall x \notin R$
+
+$$\sum_i p(x_i) = 1$$
+
+\subsection{Densité de probabilités}
+
+La \textbf{pdf} (probability density function) $f(x) \geq 0$ d'une variable aléatoire continue $X$ est une fonction tel que $\forall I \subset \mathbb{R}$
+$$P(X \in I) = \int_I f(x) \: dx$$
+
+La \textbf{cdf} (cumulative distribution function) $F(x)$ indique la probablité que $X \leq x$
+$$F(x) = P(X \leq x)$$
+
+$$F(x) = \sum_{i: x_i \leq x} p(x_i)$$
+$$F(x) = \int_{-\infty}^x f(u) \: du$$
+
+$$f(x) = \frac{d}{dx} F(x)$$
+
+
+\subsection{Espérance}
+
+L'\textbf{espérance} d'une variable aléatoire $X$ est notée $\mathbb{E}(X) = \mu_x$
+
+$$\mu_X = \sum_{x\in dom(X)} x p(x)$$
+
+$$\mu_x = \int_{-\infty}^\infty xf(x) \: dx$$
+
+Propriétés :
+
+\begin{itemize}
+    \item $\mathbb{E}(X + Y) = \mathbb{E}(X) + \mathbb{E}(Y)$
+    \item $\mathbb{E}(aX+b) = a\mathbb{E}(X) + b$
+    \item $\mathbb{E}(h(X)) = \sum_{x\in dom(X)} h(x)p(x)$
+    \item $\mathbb{E}(h(X)) = \int_{-\infty}^\infty h(x) f(x) \: dx$
+\end{itemize}
+
+
+\subsection{Variance}
+
+La \textbf{variance} d'une variable aléatoire $X$ est
+$$\mathbb{V}ar(X) = \mathbb{V}(X) = \sigma_X^2$$
+$$\sigma_X^2 = \mathbb{E}\left((X-\mu_X)^2\right)$$
+
+Avec $\sigma_X$ la déviation standard
+
+Propriétés :
+
+\begin{itemize}
+    \item $\mathbb{V}(X) = \mathbb{E}(X^2) - (\mathbb{E}(X))^2$
+    \item $\mathbb{V}(a) = 0$
+    \item $\mathbb{V}(a + bX) = b^2\mathbb{V}(X)$
+    \item $\mathbb{V}(X + Y) \neq \mathbb{V}(X) + \mathbb{V}(Y) \qquad \text{Sauf si $X$ et $Y$ indépendant}$
+\end{itemize}
+
+\medskip
+
+Si on observe $n$ événements $(x_k)_{k=1\dots,n}$, la variance empirique est estimée avec
+$$\sigma_X^2 \approx \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}$$
+
+\subsection{Loi des grands nombres (LLN)}
+
+Soit $X_{i=1,\dots,n}$ une séquence d'événements aléatoires indépendants avec la même espérance $\mu_X = \mathbb{E}(X_i)$ et de variance $\sigma_X^2$. Lorsque $n\rightarrow \infty$, la moyenne $\bar{X}_n = \frac{1}{n}\sum_{i=1}^n X_i$ converge vers $\mu_X$
+$$\forall \epsilon > 0 \qquad \lim_{n\rightarrow \infty} P(|\bar{X}_n - \mu_X| \geq \epsilon) = 0$$
+On note $\bar{X}_n \xrightarrow{p} \mu_X$
+
+<...>
+
+
+\subsection{Quantiles}
+
+<...>
+
+
+\section{Statistiques descriptives et outil de visualisation}
+
+<...>
+
+\section{Indépendance et indépendance linéaire}
+
+\subsection{Indépendance}
+
+Deux variables aléatoires $X$ et $Y$ sont \textbf{indépendantes} ($X\ind Y$) si $\forall A,B \in \mathbb{R}$ :
+$$P(X \in A, Y \in B) = P(X \in A) P(Y \in B)$$
+
+Conséquences :
+\begin{itemize}
+    \item $p(x,y) = p_X(x)p_Y(y)$ quand $X$ et $Y$ sont discrets
+    \item $f(x,y) = f_X(x)f_Y(y)$ quand $X$ et $Y$ sont continus
+\end{itemize}
+
+\subsection{Covariance}
+
+\begin{flalign*}
+    \sigma_{XY} &= \mathbb{C}ov(X,Y) = \mathbb{E}[(X-\mu_X)(Y-\mu_Y)]\\
+    &= \mathbb{E}(XY) - \mathbb{E}(X) \mathbb{E}(Y)\\
+    &= \mu_{XY} - \mu_x \mu_Y
+\end{flalign*}
+
+Si on observe $n$ événements $(x_k)_{k=1,\dots,n}$ et $(y_k)_{k=1,\dots,n}$, la covariance empirique est estimée avec
+$$\sigma_{XY} \approx s_{XY} = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i- \bar{y})$$
+
+Propriétés :
+
+\begin{itemize}
+    \item $\mathbb{C}(X,Y) = \mathbb{C}(Y,X)$
+    \item $\mathbb{C}(X,X) = \mathbb{V}(X) \text{ et } \mathbb{C}(a,X) = 0 \quad \forall a \in \mathbb{R}$
+    \item Si $X \ind Y$ alors $\mathbb{C}(X,Y) = 0$
+    \item $\mathbb{C}(aX + bY, Z) = a\mathbb{C}(X,Z) + b\mathbb{C}(Y,Z)$
+    \item $\boxed{\mathbb{V}(aX + bY) = a^2 \mathbb{V}(X) + b^2 \mathbb{V}(Y) + 2ab\mathbb{C}(X,Y)}$
+\end{itemize}
+(Attention si $\mathbb{C}(X,Y) = 0 \nRightarrow X \ind Y$)
+
+<... jusqu'à Normal random variable and Central Limit Theorem>
+
+
 
 
 \end{document}
