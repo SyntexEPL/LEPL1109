@@ -95,7 +95,7 @@ Propriétés :
 \medskip
 
 Si on observe $n$ événements $(x_k)_{k=1\dots,n}$, la variance empirique est estimée avec
-$$\sigma_X^2 \approx \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1}$$
+$$\sigma_X^2 \approx \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n-1} = s^2$$
 
 \subsection{Loi des grands nombres (LLN)}
 
@@ -103,17 +103,61 @@ Soit $X_{i=1,\dots,n}$ une séquence d'événements aléatoires indépendants av
 $$\forall \epsilon > 0 \qquad \lim_{n\rightarrow \infty} P(|\bar{X}_n - \mu_X| \geq \epsilon) = 0$$
 On note $\bar{X}_n \xrightarrow{p} \mu_X$
 
-<...>
-
 
 \subsection{Quantiles}
 
-<...>
+Soit $p$ une probabilité et $X$ une variable aléatoire. Le nombre $q_p$ satisfaisant la relation
+$$P(X \leq q_p) = p$$
+est le quantile d'ordre $p$ pour $X$. Si $X$ est continu et si son cdf $F(x)$ est inversible, alors $q_p = F^{-1}(p)$
 
+\subsection{Fonction d'une variable aléatoire}
+
+Soit $X$ une variable aléatoire continue de densité (pdf) $f_X(x)$. La densité de $Y = a + bX$ est donnée par
+$$f_Y(y) = \frac{1}{|b|} f_X \left(\frac{y - a}{b}\right)$$
+
+
+\break
 
 \section{Statistiques descriptives et outil de visualisation}
 
-<...>
+\begin{itemize}
+    \item \textbf{Population} : Collection de tout les résultats possible qui nous intéressent
+    \item \textbf{Échantillon} : Un subset de population
+    \item \textbf{Statistiques} descriptives : Branche des statistiques qui s'occupe de l'organisation et de l'affichage des données
+\end{itemize}
+
+\subsection{Moyenne, Médiane et Quantiles}
+
+\begin{itemize}
+    \item \textbf{Moyenne} :
+    $$\bar{x} = \frac{1}{n} \sum_{i=1}^n x_i$$
+    \item \textbf{Médiane} : La valeur $q_{0.5}$ telle que la moitié des résultats sont en dessous, et l'autre moitiée au dessus
+    \item \textbf{Quantile} : On trie les résultats par ordre croissant $x_{(1)}\leq \dots \leq x_{(n)}$, on a 
+    $$q_p = x_{(1+(n-1)p)}$$ 
+\end{itemize}
+
+\subsection{Range, IQR, Outliers}
+
+\begin{itemize}
+    \item \textbf{Range} : $x_{max} - x_{min}$
+    \item \textbf{Inter-Quartile Range (IQR)} : La différence entre des quartiles symétriques, par exemple $IQR = q_{0.75} - q_{0.25}$
+    \item \textbf{Outliers} : Observations qui sont trop loin du reste des données, qui pourraient être due à des erreurs
+    
+    Une observation est considérée comme susbecte si elle est plus bas que $q_{0.25} - 1.5 \times IQR$ ou plus haut que $q_{0.75} + 1.5 \times IQR$
+\end{itemize}
+
+\subsection{Analyse graphique}
+
+\subsubsection{Boxplot}
+
+\begin{center} \includegraphics[scale=0.35]{images/boxplot.png} \end{center}
+
+\subsubsection{Histogram}
+
+\begin{center} \includegraphics[scale=0.35]{images/histogram.png} \end{center}
+
+
+\break
 
 \section{Indépendance et indépendance linéaire}
 
@@ -139,6 +183,8 @@ Conséquences :
 Si on observe $n$ événements $(x_k)_{k=1,\dots,n}$ et $(y_k)_{k=1,\dots,n}$, la covariance empirique est estimée avec
 $$\sigma_{XY} \approx s_{XY} = \frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i- \bar{y})$$
 
+\begin{center} \includegraphics[scale=0.5]{images/covariance.png} \end{center}
+
 Propriétés :
 
 \begin{itemize}
@@ -150,8 +196,41 @@ Propriétés :
 \end{itemize}
 (Attention si $\mathbb{C}(X,Y) = 0 \nRightarrow X \ind Y$)
 
-<... jusqu'à Normal random variable and Central Limit Theorem>
+\medskip
 
+La covariance est une mesure de la dépendance linéaire entre deux variables aléatoires.
+
+La taille d'une covariance dépend de l'échelle des variables : $\mathbb{C}(aX,Y) = a\mathbb{C}(X,Y)$
+
+\subsection{Corrélation}
+
+La \textbf{corrélation} entre $X$ et $Y$ est défini comme
+$$\rho_{XY} = \frac{\mathbb{C}(X,Y)}{\sqrt{\mathbb{V}(X)\mathbb{V}(Y)}} = \frac{\sigma_{XY}}{\sigma_X \sigma_Y}$$
+
+\medskip
+
+L'inégalité de Cauchy Schwarz donne
+
+$|\sigma_{XY}| \leq \sigma_X \sigma_Y$ avec égalité si et seulement si $Y = aX + b$
+
+On en déduit les propriétés suivantes :
+
+\begin{itemize}
+    \item $\rho_{XY}$ est invariant à l'échelle
+    \item $-1 \leq \rho_{XY} \leq 1$
+    \item Si $\rho_{XY} = 1$ alors $Y = a + bX$ avec $b \in \mathbb{R}^+$ ($Y$ proportionnel à $X$)
+    \item Si $\rho_{XY} = -1$ alors $Y = a + bX$ avec $b \in \mathbb{R}^-$ ($Y$ inversément proportionnel à $X$)
+\end{itemize}
+
+\medskip
+
+La corrélation est une mesure the la dépendance linéaire entre deux variables aléatoires. Elle n'a pas d'unité et est dans $[-1,1]$
+
+\medskip
+
+On peut estimer la correlation de manière empirique :
+
+$$\rho_{XY} \approx r_{XY} = \frac{\frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2} \sqrt{\frac{1}{n-1} \sum_{i=1}^n (y_i - \bar{y})^2}}$$
 
 
 

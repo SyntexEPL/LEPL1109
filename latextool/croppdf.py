@@ -3,7 +3,7 @@
 # - Page number
 # - Output path
 
-WINDOW_HEIGHT = 1200
+WINDOW_HEIGHT = 1000
 
 import sys
 args = sys.argv
