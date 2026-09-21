@@ -286,11 +286,24 @@ On a $\mathbb{E}(X) = n$ et $\mathbb{V}(X) = 2n$
 \subsection{Student's T}
 
 Soit $Z$ et $Y$ deux variables aléatoires indépendantes $Z\sim \mathcal{N}(0,1)$ et $Y\sim \chi_n^2$ alors
-<...>
+
+$$T_n = \frac{Z}{\sqrt{Y/n}}$$
+
+est la variable aléatoire \textbf{Student'T} avec $n$ degrés de liberté. Sa pdf est
+
+$$
+f_{T_n}(t) = \frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\Gamma\left(\frac{n}{2}\right)}\left(1+\frac{t^2}{n}\right)^{-\frac{n+1}{2}} \quad t \in \mathbb{R}
+$$
+
 
 \subsection{Fisher-Snedecor}
 
-<...>
+Soit $X$ et $Y$ deux variables aléatoires $\chi^2$ indépendantes avec $n_1$ et $n_2$ degrés de liberté, alors
+$$F_{n_1,n_2} = \frac{X/n_1}{Y/n_2}$$
+
+suis la distribution de \textbf{Fisher-Snedecor}, sa pdf est
+
+$$f_{F_{n1,n2}}(z) = \frac{\Gamma \left(\frac{n_1 + n_2}{2}\right) \left(\frac{n_1}{n_2}\right)^{\frac{n_1}{2}} z^{\left(\frac{n_1}{2} - 1\right)}}{\Gamma \left(\frac{n_1}{2}\right) \Gamma \left(\frac{n_2}{2}\right)\left(1 + \frac{n_1}{n_2}x\right)^{\frac{n_1 + n_2}{2}}} t \in \mathbb{R}$$
 
 
 
@@ -351,7 +364,21 @@ P(X_k = x_{k,j}) &= \sum_{i_d=1}^{m_d} \cdots \sum_{i_{k+1}=1}^{m_{k+1}} \sum_{i
 
 \subsection{Distribution conditionelle}
 
-<...>
+Pour un petit $\Delta$, la pdf peut être interprétée comme une probabilitée
+
+$$f(x_1,\dots,x_d) \Delta^d \approx P(x_1 \leq X_1 \leq x_1 + \Delta, \dots, x_d \leq X_d \leq x_d + \Delta)$$
+
+Le théorème de Bayes dit que pour tout sous-ensemble $A$ et $B$ de $\mathbb{R}^p$, la probabilité que $X\in A$, en sachant que $X \in B$ est :
+$$P(\mathbf{X} \in A | \mathbf{X} \in B) = \frac{P(\mathbf{X} \in A \cap B)}{P(\mathbf{X} \in B)}$$
+
+Si $d=2$, on défini la pdf conditionelle de la variable aléatoire $X_1|X_2$ :
+$$f_{X_1|X_2}(x_1|x_2) = \frac{f(x_1,x_2)}{f_{X_2}(x_2)}$$
+$$f_{X_1|X_2}(x_1|x_2)\Delta \approx P(x_1 \leq X_1 \leq x_1 + \Delta | X_2=x_2)$$
+
+Si on partitionne $\mathbf{X}$ en $\mathbf{X}_A | \mathbf{X}_B$, la pdf conditionnelle est donnée par
+$$f_{\mathbf{X}_A|\mathbf{X}_B} (\mathbf{x}_A|\mathbf{x}_B) = \frac{f((\mathbf{x}_A,\mathbf{x}_A))}{f_{\mathbf{X}_B}(\mathbf{x}_B)}$$
+$$p_{\mathbf{X}_A|\mathbf{X}_B} (\mathbf{x}_A|\mathbf{x}_B) = \frac{p((\mathbf{x}_A,\mathbf{x}_B))}{p_{\mathbf{X}_B}(\mathbf{x}_B)}$$
+
 
 \subsection{Espérances}
 
@@ -458,14 +485,18 @@ $$\mathbb{E}(\mathbf{X}_A | \mathbf{X}_B = x_B) = \mathbb{E}(\mathbf{X}_A)$$
 
 La matrice de covariance est diagonal puisque
 
-<Slide 74.2>
+$f_{X_i,X_j}(x_i,x_j) = f_{X_i}(x_i) f_{X_j}(x_j)$ :
+\begin{flalign*}
+    \sigma_{i,j} &= \int \int (x_i - \mu_i) (x_j - \mu_j) f_{X_i,X_j}(x_i,x_j) \: dx_i dx_j\\
+    &= \underbrace{\int (x_i - \mu_i) f_{X_i}(x_i) \: dx_i}_{=0} \underbrace{\int (x_j - \mu_j) f_{X_j}(x_j)\: dx_j}_{=0}
+\end{flalign*}
 
 
 \subsection{Distribution normale multivariée}
 
 $\mathbf{X}$ suit une \textbf{distribution normale multivariée} $\mathcal{N}(\mu, \sum)$ si sa pdf pour $\mathbf{x} = (x_1,\dots,x_d) \in \mathbb{R}^d$
 
-<slide 76 avec $\Sigma^{-1}$>
+$$f(x_1, \dots, x_d) = \frac{1}{\sqrt{det(2\pi \Sigma)}} \exp\left(-\frac{1}{2} (\mathbf{x} - \mathbf{\mu}) \Sigma^{-1}(\mathbf{x} - \mathbf{\mu})^\top\right)$$
 
 avec $\Sigma$ la matrice de covariance $d\times d$, et $\mathbf{\mu} = (\mu_1,\dots,\mu_d)$ le vecteur moyenne
 
@@ -489,7 +520,22 @@ avec $\Sigma$ la matrice de covariance $d\times d$, et $\mathbf{\mu} = (\mu_1,\d
     \item $X_j \sim \mathcal{N}(\mu_j,\sigma_{jj})$
 \end{itemize}
 
-<Slide 79>
+Soit $\mathbf{X} = (\mathbf{X}_A,\mathbf{X}_B)^\top \sim \mathcal{N}(\mu,\Sigma)$ avec $\mathbf{X}_A$ et $\mathbf{X}_B$ de dimensions $p$ et $d-p$. On a
+$$\mu = \begin{pmatrix}
+    \mu_A\\\mu_B
+\end{pmatrix} \qquad \Sigma = \begin{pmatrix}
+    \Sigma_{AA} & \Sigma_{AB}\\ \Sigma_{BA} & \Sigma_{BB}
+\end{pmatrix}$$
+On a
+\begin{flalign*}
+\mu_{B|A}(\mathbf{x}_A) &= \mu_B + \Sigma_{BA} \Sigma_{AA}^{-1} (\mathbf{x}_A - \mu_A)\\
+\Sigma_{B|A}(\mathbf{x}_A) &= \Sigma_{BB} - \Sigma_{BA}\Sigma_{AA}^{-1} \Sigma_{AB}
+\end{flalign*}
+et
+$$\mathbf{X}_A \sim \mathcal{N}(\mu_A,\Sigma_{AA})$$
+et
+$$\mathbf{X}_B|\mathbf{X}_A = \mathbf{x}_A \sim \mathcal{N}(\mu_{B|A}(\mathbf{x}_A),\Sigma_{B|A})$$
+
 
 \section{Estimation}
 
