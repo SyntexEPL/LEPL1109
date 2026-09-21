@@ -234,4 +234,274 @@ $$\rho_{XY} \approx r_{XY} = \frac{\frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_
 
 
 
+\section{Variable aléatoire normale et théorème central limite}
+
+Une variable aléatoire suit une \textbf{distribution normale} si sa densité est donnée par
+
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(-\frac{1}{2}\left(\frac{x - \mu}{\sigma}\right)^2\right) \quad x \in \mathbb{R}$$
+
+avec $\mu \in \mathbb{R}$ et $\sigma \in \mathbb{R}^+$ des paramètres. On note $X \sim \mathcal{N}(\mu,\sigma^2)$
+
+$$\mathbb{E}(X) = \mu \quad , \quad \mathbb{V}(X) = \sigma^2$$
+$$m_X(t) := \mathbb{E}\left(e^{tX}\right) = \exp\left(\mu t + \frac{1}{2}t^2\sigma^2\right)$$
+
+$m_X(t)$ fonction génératrice des moments $\left.\frac{\partial^n m_X(t)}{\partial t^n}\right|_{t=0} = \mathbb{E}(X^n)$
+
+\subsection{Standardisation}
+
+\begin{itemize}
+    \item Si $X \sim \mathcal{N}(\mu,\sigma^2)$, alors $a + bX \sim \mathcal{N}(a + b\mu, b^2\sigma^2)$
+    \item Si $X \sim \mathcal{N}(\mu_x,\sigma_x^2)$ et $Y \sim \mathcal{N}(\mu_y,\sigma_y^2)$ avec la covariance $\sigma_{x,y} = \mathbb{C}(X,Y)$, alors
+    $$aX + bY \sim \mathcal{N}(a\mu_x + b\mu_y, a^2 \sigma_x^2 + b^2 \sigma_y^2 + 2ab\sigma_{x,y})$$
+    \item Si $X \sim \mathcal{N}(\mu,\sigma^2)$ alors $\frac{X - \mu}{\sigma} \sim Z = \mathcal{N}(0,1)$ et
+    $$P(X \leq x) = P\left(Z \leq \frac{x - \mu}{\sigma}\right)$$
+\end{itemize}
+
+\subsection{Théorème Central Limite}
+
+Soit $X_1, \dots, X_n$ une séquence de variables aléatoires indépendantes et identiquement distribuées, avec $\mathbb{E}(X_i) = \mu$ et $\mathbb{V}(X_i) = \sigma^2$ lorsque $n\rightarrow \infty$
+
+$$
+Z_n = \sqrt{n} \frac{\bar{X}_n - \mu}{\sigma} \xrightarrow{d} Z \sim \mathcal{N}(0,1)
+$$
+$$
+P(Z_n \leq z) \xrightarrow{n \to \infty} P(Z \leq z) \forall z
+$$
+
+\section{Autres variables aléatoires fondamentales}
+
+\subsection{Distribution Chi-square ($\chi^2$)}
+
+Une variable aléatoire $X$ définie sur $\mathbb{R}^+$ suit une distribution $\chi^2$ de paramètre $n$ si sa densitée (pdf) est donnée par
+
+$$
+\frac{1}{2^{n/2}\Gamma(n/2)} x^{n/2-1} e^{-x/2}
+$$
+$$
+\text{où } \Gamma(\alpha) = \int_0^\infty t^{\alpha-1} e^{-t} dt \quad \text{(Fonction Gamma)}.
+$$
+
+On a $\mathbb{E}(X) = n$ et $\mathbb{V}(X) = 2n$
+
+\subsection{Student's T}
+
+Soit $Z$ et $Y$ deux variables aléatoires indépendantes $Z\sim \mathcal{N}(0,1)$ et $Y\sim \chi_n^2$ alors
+<...>
+
+\subsection{Fisher-Snedecor}
+
+<...>
+
+
+
+\section{Variable aléatoires multivariées}
+
+Un \textbf{vecteur aléatoire} $\mathbf{X} = (X_1, \dots, X_d)^\top$ est une application $\Omega \rightarrow \mathbb{R}^p$
+
+\medskip
+
+Si $X_1, \dots, X_d$ sont continues, la fonction de distribution de probablité multivariée (pdf) est
+
+\begin{align*}
+P(\mathbf{X} \leq \mathbf{x}) &= P(X_1 \leq x_1, \dots, X_d \leq x_d) \\
+&= \int_{-\infty}^{x_d} \dots \int_{-\infty}^{x_1} f(u_1, \dots, u_d) \,du_1 \dots du_d
+\end{align*}
+
+\medskip
+
+Si $X_1, \dots, X_d$ sont discrètes, la fonction de masse multivariée (pmf) est
+
+\begin{align*}
+P(\mathbf{X} = \mathbf{x}) &= P(X_1 = x_1, \dots, X_d = x_d) \\
+&= p(x_1, \dots, x_d).
+\end{align*}
+
+
+\subsection{Distribution marginale}
+
+\subsubsection{Continu}
+
+Soit $\mathbf{X} = (X_1, \dots, X_d)^\top$ un vecteur aléatoire continu. La pdf marginale de $X_k$ pour $k=1,\dots,d$ est
+
+\begin{align*}
+P(X_k \le x) &= P(X_1 \le \infty, \dots, X_k \le x, \dots, X_d \le \infty) \\
+&= \int_{-\infty}^{+\infty} \dots \int_{-\infty}^{x} \dots \int_{-\infty}^{+\infty} f(u_1, \dots, u_d) du_1 \dots du_d
+\end{align*}
+
+On a
+\begin{align*}
+f_{X_k}(x) &= \frac{\partial}{\partial x} P(X_k \leq x) \\
+&= \int_{-\infty}^{+\infty} \dots \int_{-\infty}^{+\infty} f(u_1, \dots, u_{k-1}, x, u_{k+1}, \dots, u_d) du_1 \dots du_d .
+\end{align*}
+
+La distribution bivariée de $X_i$ et $X_j$ est
+
+$$ f_{X_i, X_j}(x_i, x_j) = \int_{-\infty}^{+\infty} \dots \int_{-\infty}^{+\infty} f(u_1, \dots, X_i, \dots, X_j, \dots, u_d) \, du_1 \dots du_d $$
+
+
+\subsubsection{Discret}
+
+Soit $\mathbf{X}=(X_1, \dots, X_d)^\top$ un vecteur aléatoire discret. La pmf marginale de $X_k$ pour $k=1,\dots,d$ est
+
+\begin{align*}
+P(X_k = x_{k,j}) &= \sum_{i_d=1}^{m_d} \cdots \sum_{i_{k+1}=1}^{m_{k+1}} \sum_{i_{k-1}=1}^{m_{k-1}} \cdots \sum_{i_1=1}^{m_1} p(x_{1,i_1}, \ldots, x_{k,j}, \ldots, x_{d,i_d}) \\
+&= p_{\bullet,\ldots,j,\ldots,\bullet}
+\end{align*}
+
+
+\subsection{Distribution conditionelle}
+
+<...>
+
+\subsection{Espérances}
+
+\textbf{Continu} :
+
+\begin{align*}
+    \mathbb{E}(\mathbf{X}) &= \begin{pmatrix}
+        \mathbb{E}(X_1) \\
+        \vdots \\
+        \mathbb{E}(X_d)
+    \end{pmatrix} = \begin{pmatrix}
+        \int_{-\infty}^{+\infty} x f_1(x) \,dx \\
+        \vdots \\
+        \int_{-\infty}^{+\infty} x f_d(x) \,dx
+    \end{pmatrix}
+\end{align*}
+
+\textbf{Discret} :
+
+\begin{align*}
+\mathbb{E}(\mathbf{X}) &= \begin{pmatrix} 
+\mathbb{E}(X_1) \\ 
+\vdots \\ 
+\mathbb{E}(X_d) 
+\end{pmatrix} 
+= \begin{pmatrix} 
+\sum_{j=1}^{m_1} x_{1,j} p_{j, \bullet, \dots, \bullet} \\ 
+\vdots \\ 
+\sum_{j=1}^{m_d} x_{d,j} p_{\bullet, \dots, \bullet, j} 
+\end{pmatrix}
+\end{align*}
+
+\textbf{Propriétés} :
+
+\begin{itemize}
+    \item $\mathbb{E}(\alpha \mathbf{X} + \beta \mathbb{Y}) = \alpha \mathbb{E}(\mathbf{X}) + \beta \mathbb{E}(\mathbf{Y})$
+    \item Si $\mathbf{X}$ et $\mathbf{Y}$ indépendants : $\mathbb{E}(\mathbf{X}^\top \mathbf{Y}) = \mathbb{E}(\mathbf{X})^\top \mathbb{E}(\mathbf{Y})$
+\end{itemize}
+
+
+\subsection{Espérance conditionnelle}
+
+On divise $\mathbf{X}$ en deux vecteurs disjoints $\mathbf{X}_A$ et $\mathbf{X}_B$.
+
+L'espérance conditionnelle de $\mathbf{X}_A$ si $\mathbf{X}_B = \mathbf{x}_B$ est
+
+\begin{align*}
+    \mathbb{E}(\mathbf{X}_A | \mathbf{X}_B = \mathbf{x}_B) &= \int_{u \in A} \mathbf{u} f_{\mathbf{X}_A | \mathbf{X}_B} (\mathbf{u} | \mathbf{x}_B) d\mathbf{u}, \\
+    \mathbb{E}(\mathbf{X}_A | \mathbf{X}_B = \mathbf{x}_B) &= \sum_{u \in A} \mathbf{u} p_{\mathbf{X}_A | \mathbf{X}_B} (\mathbf{u} | \mathbf{x}_B).
+\end{align*}
+
+On a
+$$\mathbb{E}(\mathbf{X}_A) = \mathbb{E}(\mathbb{E}(\mathbf{X}_A | \mathbf{X}_B)).$$
+
+\medskip
+
+\textbf{Propriété} :
+
+Soit $\mathbf{X}_A$ et $\mathbf{X}_B$ des partitions de $\mathbf{X}$. La fonction $g(.)$ solution de
+$$\min_g \mathbb{E} \left( \left( \mathbf{X}_A - g(\mathbf{X}_B) \right)^2 \right),$$
+est $g(\mathbf{X}_B) = \mathbb{E}(\mathbf{X}_A|\mathbf{X}_B)$
+
+
+\subsection{Covariance}
+
+Soit $\mu = (\mu_1,\dots,\mu_d)^\top = \mathbb{E}(\mathbf{X})$ le d-vecteur des espérances.
+
+La \textbf{matrice de covariance} de $\mathbf{X}$ est une matrice $d\times d$
+
+\begin{align*}
+\Sigma &= \mathbb{E} \left( (\mathbf{X} - \mu)(\mathbf{X} - \mu)^{\text{T}} \right) \\
+&= \mathbb{E} \left( \mathbf{X}\mathbf{X}^{\text{T}} \right) - \mu\mu^{\text{T}}
+\end{align*}
+
+\medskip
+
+Soit $\mathbf{X}$ d'espérance $\mu$ et covariance $\sum_\mathbf{x}$.
+
+Soit $M$ une matrice $p\times d$ et $\mathbf{m}$ un vecteur de taille $p$.
+
+
+Alors $\mathbf{Y} = M\mathbf{X} + \mathbf{m}$ est un vecteur aléatoire de taille $p$ tel que
+
+\begin{align*}
+    \mu_\mathbf{Y} &= M\mu + \mathbf{m} \\
+    \Sigma_\mathbf{Y} &= M\Sigma_X M^\top
+\end{align*}
+
+
+\subsection{Indépendance}
+
+Les variables aléatoires $X_k$ pour $k=1,\dots,d$ sont indépendants ssi la pdf est le produit des pdfs marginaux
+
+$$f(x_1, \dots, x_d) = \prod_{k=1}^{d} f_{X_k}(x_k).$$
+$$p(x_1, \dots, x_d) = \prod_{k=1}^{d} P(X_k = x_k).$$
+
+\textbf{Conséquence 1} :
+$$\mathbb{E}(\mathbf{X}_A | \mathbf{X}_B = x_B) = \mathbb{E}(\mathbf{X}_A)$$
+
+\medskip
+
+
+\textbf{Conséquence 2} :
+
+La matrice de covariance est diagonal puisque
+
+<Slide 74.2>
+
+
+\subsection{Distribution normale multivariée}
+
+$\mathbf{X}$ suit une \textbf{distribution normale multivariée} $\mathcal{N}(\mu, \sum)$ si sa pdf pour $\mathbf{x} = (x_1,\dots,x_d) \in \mathbb{R}^d$
+
+<slide 76 avec $\Sigma^{-1}$>
+
+avec $\Sigma$ la matrice de covariance $d\times d$, et $\mathbf{\mu} = (\mu_1,\dots,\mu_d)$ le vecteur moyenne
+
+\medskip
+
+\textbf{Propriétés} :
+
+\begin{itemize}
+    \item $\Sigma$ est diagonale $\Leftrightarrow$ $X_1,\dots,X_d$ sont indépendants
+    \item Si $\textbf{m} \in \mathbb{R}^d$ et $\mathbf{M}$ une matrice $d\times d$ alors
+    $$\mathbf{Y} = \mathbf{m} + \mathbf{MX}$$
+    est une normale multivariée $\mathcal{N}(\mu_\mathbf{Y},\Sigma_\mathbf{Y})$ avec comme moyenne et covariance :
+    $$\mathbf{\mu_Y} = \mathbf{m} + \mathbf{M\mu}$$
+    $$\Sigma_Y = \mathbf{M}\Sigma\mathbf{M}^\top$$
+\end{itemize}
+
+\textbf{Conséquences}
+
+\begin{itemize}
+    \item $\mathbf{Y} = \Sigma^{-1/2} \mathbf{X} - \mu$ est $\mathcal{N}(0,I_d)$ (avec $\Sigma^{1/2}$ tel que $\Sigma^{1/2}\Sigma^{1/2\top} = \Sigma$)
+    \item $X_j \sim \mathcal{N}(\mu_j,\sigma_{jj})$
+\end{itemize}
+
+<Slide 79>
+
+\section{Estimation}
+
+Si $X_i \sim (\mu,\sigma)$ alors $\theta = (\mu,\sigma) \in \Theta = \mathbb{R}_+^2$, comment estimer $\theta$
+
+Un \textbf{estimateur} de $\theta$, noté $\hat{\theta}$ est une fonction $h(.)$ 
+$$\hat{\theta} = h(X_1,\dots, X_n) \in \Theta$$
+
+Une \textbf{estimation} de $\theta$ est une valeur observée d'un \textbf{estimateur} calculé à partir d'un échantillon $x_1,\dots,x_n$
+$$\hat{\theta}_\text{obs} = h(x_1,\dots,x_n) \in \Theta$$
+
+L'estimateur est une variable aléatoire
+
+
 \end{document}
