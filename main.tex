@@ -148,11 +148,13 @@ $$f_Y(y) = \frac{1}{|b|} f_X \left(\frac{y - a}{b}\right)$$
 
 \subsection{Analyse graphique}
 
-\subsubsection{Boxplot}
+\textbf{Boxplot} :
 
 \begin{center} \includegraphics[scale=0.35]{images/boxplot.png} \end{center}
 
-\subsubsection{Histogram}
+\medskip
+
+\textbf{Histogram} :
 
 \begin{center} \includegraphics[scale=0.35]{images/histogram.png} \end{center}
 
@@ -233,6 +235,7 @@ On peut estimer la correlation de manière empirique :
 $$\rho_{XY} \approx r_{XY} = \frac{\frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})(y_i - \bar{y})}{\sqrt{\frac{1}{n-1} \sum_{i=1}^n (x_i - \bar{x})^2} \sqrt{\frac{1}{n-1} \sum_{i=1}^n (y_i - \bar{y})^2}}$$
 
 
+\break
 
 \section{Variable aléatoire normale et théorème central limite}
 
@@ -267,6 +270,9 @@ $$
 $$
 P(Z_n \leq z) \xrightarrow{n \to \infty} P(Z \leq z) \forall z
 $$
+
+
+\break
 
 \section{Autres variables aléatoires fondamentales}
 
@@ -306,6 +312,7 @@ suis la distribution de \textbf{Fisher-Snedecor}, sa pdf est
 $$f_{F_{n1,n2}}(z) = \frac{\Gamma \left(\frac{n_1 + n_2}{2}\right) \left(\frac{n_1}{n_2}\right)^{\frac{n_1}{2}} z^{\left(\frac{n_1}{2} - 1\right)}}{\Gamma \left(\frac{n_1}{2}\right) \Gamma \left(\frac{n_2}{2}\right)\left(1 + \frac{n_1}{n_2}x\right)^{\frac{n_1 + n_2}{2}}} t \in \mathbb{R}$$
 
 
+\break
 
 \section{Variable aléatoires multivariées}
 
@@ -332,7 +339,7 @@ P(\mathbf{X} = \mathbf{x}) &= P(X_1 = x_1, \dots, X_d = x_d) \\
 
 \subsection{Distribution marginale}
 
-\subsubsection{Continu}
+\textbf{Continu} :
 
 Soit $\mathbf{X} = (X_1, \dots, X_d)^\top$ un vecteur aléatoire continu. La pdf marginale de $X_k$ pour $k=1,\dots,d$ est
 
@@ -351,8 +358,9 @@ La distribution bivariée de $X_i$ et $X_j$ est
 
 $$ f_{X_i, X_j}(x_i, x_j) = \int_{-\infty}^{+\infty} \dots \int_{-\infty}^{+\infty} f(u_1, \dots, X_i, \dots, X_j, \dots, u_d) \, du_1 \dots du_d $$
 
+\bigskip
 
-\subsubsection{Discret}
+\textbf{Discret} :
 
 Soit $\mathbf{X}=(X_1, \dots, X_d)^\top$ un vecteur aléatoire discret. La pmf marginale de $X_k$ pour $k=1,\dots,d$ est
 
@@ -537,6 +545,8 @@ et
 $$\mathbf{X}_B|\mathbf{X}_A = \mathbf{x}_A \sim \mathcal{N}(\mu_{B|A}(\mathbf{x}_A),\Sigma_{B|A})$$
 
 
+\break
+
 \section{Estimation}
 
 Si $X_i \sim (\mu,\sigma)$ alors $\theta = (\mu,\sigma) \in \Theta = \mathbb{R}_+^2$, comment estimer $\theta$
@@ -548,6 +558,132 @@ Une \textbf{estimation} de $\theta$ est une valeur observée d'un \textbf{estima
 $$\hat{\theta}_\text{obs} = h(x_1,\dots,x_n) \in \Theta$$
 
 L'estimateur est une variable aléatoire
+
+\medskip
+
+$\hat{\theta}$ est un estimateur non-biaisé de $\theta$ si
+$$\mathbb{E}(\widehat{\theta}) = \mathbb{E}(h(X_1, \dots, X_n)) = \theta.$$
+
+Le \textbf{biais} est la différence entre l'espérance et la vrai valeur inconnue :
+$$B(\hat{\theta}) = \mathbb{E}(\hat{\theta}) - \theta$$
+
+La MSE (mean sqaure error) mesure l'erreur moyenne
+$$MSE(\hat{\theta}) = \mathbb{E}\left(\left(\hat{\theta}-\theta\right)^2\right) = B(\hat{\theta})^2 + \mathbb{V}(\hat{\theta})$$
+
+
+
+\section{Méthode des moments}
+
+On observe $x_1,\dots,x_n$ résultats de $X_{i=1:n}$. On pense que $X_{i=1:n}$ a la même pdf $f(x|\theta)$ que $X$.
+
+Pour estimer $\theta \in \mathbb{R}^d$, on match les $d$ moments
+$$\mu_k(\theta) = \mathbb{E}\left((X)^k\right) \qquad k = 1,\dots,d$$
+avec les $d$ moments empiriques
+$$M_k = \frac{1}{n}\sum_{i=0}^n X_i^k \qquad k=1,\dots,d$$
+
+L'estimateur des moments $\hat{\theta}$ est solution d'un system de $d$ équations
+
+$$\mu_k(\hat{\theta}) = M_k \quad k = 1, \dots, d.$$
+$$\mu_k(\hat{\theta}_{\text{obs}}) = m_k \quad k = 1, \dots, d.$$
+
+\bigskip
+
+$\bar{X}$ est un estimateur non-biaisé de $\mathbb{E}(X)$
+
+Cette méthode est facile à appliquée, mais elle peut avoir des résulats moins précis que d'autres méthodes
+
+
+\section{Maximum de vraisemblance}
+
+Soit un échantillon aléatoire $X_{1:n} \sim X$. On pense que $X$ a une pdf $f(x|\theta)$ où $\theta$ est un vecteur de paramètres aléatoires. On a
+$$P(x \leq X \leq x + dx) \approx f(x|\theta) dx$$
+
+Puisque $X_{i:n}$ sont indépendants, la probabilité d'observer les réalisations $x_{1:n}$ de $X_{1:n}$ est
+\begin{align*}
+&P(x_1 \leq X_1 \leq x_1 + dx, \ldots, x_n \leq X_n \leq x_n + dx) \\
+&= P(x_1 \leq X_1 \leq x_1 + dx) \ldots P(x_n \leq X_n \leq x_n + dx) \\
+&= \prod_{k=1}^{n} f(x_k|\theta) dx .
+\end{align*}
+
+La probabilité que l'échantillon observée a été générée par le modèle est proportionnel à la fonction de vraisemblance :
+$$L(x_1,\dots,x_n|\theta) := \Pi_{k=1}^n f(x_k|\theta)$$
+
+Le MLE (maximum likelihood estimator) de $\theta$ est la valeur qui maximise la vraisemblance de l'échantillon observé
+$$\hat{\theta} = \arg \max\limits_\theta L(x_1, \dots, x_n|\theta)$$
+
+Propriétés de la MLE :
+\begin{itemize}
+    \item <slide 100>
+\end{itemize}
+
+En discret :
+$$\hat{\theta} = \arg \max\limits_{\theta} l(x_1,\dots,x_n|\theta)$$
+où $l(\cdot)$ est la somme des log de la pmf:
+$$l(x_1, \dots, x_n|\theta) = \sum_{i=1}^n \ln(p(x_k|\theta))$$
+
+<Slide 105>
+
+
+\section{Simulations et Bootstrapping}
+
+\subsection{Variable aléatoire continue}
+
+Soit une cdf continue $F(x)$ inversible, on définit
+$$X = F^{-1}(U)$$
+où $U$ est une variable aléatoire continue et uniforme sur $[0,1]$. Alors $X$ a $F(x)$ comme cdf
+
+\subsection{Bootstrapping}
+
+<Slide 113>
+
+$\theta$ est estimé par
+
+$$\bar{\theta}^* = \frac{1}{M} \sum_{m=1}^{M} \hat{\theta}(X^{*m})$$
+
+où $\hat{\theta}(X^{*m})$ est la réplication bootstrap de $\hat{\theta}(X)$
+
+La variance empirique de l'estimateur est :
+
+$$
+S^2(\hat{\theta}) = \frac{1}{M-1} \sum_{m=1}^{M} \left(\hat{\theta}(X^{*m}) - \bar{\theta}^{*}\right)^2
+$$
+
+
+\break
+
+\section{Moyenne et déviation standard empirique}
+
+\subsection{Propriétés de $\bar{X}$ et $S^2$}
+
+<Slide 119>
+
+Un \text{interval de confiance} pour $\mu$ au niveau $1 - \alpha$ est un interval $[\mu_L,\mu_U]$ tel que $\mu$ est dans l'interval avec probabilitée de $1 - \alpha$
+
+<...>
+
+\begin{itemize}
+    \item $S^2 = \frac{1}{n-1} \sum_{i=1}^n (X_i - \bar{X})^2$ est un estimateur non biaisé de $\mathbb{V}(X)$
+    \item Si $X_i \sim \mathcal{N}(\mu,\sigma^2)$, $S^2$ et $\bar{X}$ sont indépendants, donc
+    $$(n-1)\frac{S^2}{\sigma^2} = \sum_{i=1}^{n} \left(\frac{X_i - \bar{X}}{\sigma}\right)^2 \sim \chi_{n-1}^2$$
+\end{itemize}
+
+<125>
+
+\medskip
+
+Une variable variable aléatoire Student's T est $= T_n = \frac{Y}{\sqrt{Z/n}}$ où $Z \sim \chi_n^2$ et $Y\sim N(0,1)$, alors :
+
+Si $X_i \sim \mathcal{N}(\mu,\sigma^2)$ alors le ratio suivant est une variable aléaatoire Student's T
+$$\frac{\bar{X} - \mu}{\sqrt{\frac{S^2}{n}}} \sim t_{n-1}$$
+
+<128>
+
+\begin{center} \includegraphics[scale=0.4]{images/prop-x-s2.png} \end{center}
+
+
+\subsection{Propriétés de $\bar{X}$ et $S^2$ à 2 populations normales}
+
+\begin{center} \includegraphics[scale=0.4]{images/prop-x-s2-2.png} \end{center}
 
 
 \end{document}
