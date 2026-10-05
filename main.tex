@@ -804,8 +804,21 @@ On rejette $H_0$ au niveau $\alpha$ si
 
 \subsection{P-valeur}
 
-<...>
+La \textbf{P-valeur} est le plus bas niveau de signification pour lequel les données indiques une rejection de l'hypothèse nulle
 
+\medskip
+
+Soit $T(\mathbf{X})$ une statistique de test tel que les petites valeurs de $T$ montre que $H_0$ est faux. Pour un échantillon donné $\mathbf{x}$, la p-valeur est :
+$$ p(\mathbf{x}) = P(T(\mathbf{X}) < T(\mathbf{x}) \mid H_0 \text{ est vrai}) $$
+
+Soit $T(\mathbf{X})$ une statistique de test tel que les grandes valeurs de $T$ montre que $H_0$ est faux. Pour un échantillon donné $\mathbf{x}$, la p-valeur est :
+$$ p(\mathbf{x}) = P(T(\mathbf{X}) > T(\mathbf{x}) \mid H_0 \text{ est vrai}) $$
+
+Soit $T(\mathbf{X})$ une statistique de test \textbf{symmétrique autour de 0} tel que les petites et grandes valeurs de $T$ montre que $H_0$ est faux. Pour un échantillon donné $\mathbf{x}$, la p-valeur est :
+$$ p(\mathbf{x}) = 2P(T(\mathbf{X}) > |T(\mathbf{x})| \mid H_0 \text{ est vrai}) $$
+
+Une petite p-valeur indique que $H_0$ est très peu probable, une grande p-valeur indique que $H_0$ est probable
+ 
 
 \section{Test d'hypothèse à 2 populations}
 
@@ -930,8 +943,14 @@ $$\hat{\beta} = (\mathbf{X}^\intercal \mathbf{X})^{-1} \mathbf{X}^\intercal \mat
 \bigskip
 
 La meilleur prédiction de $Y_i$ pour un vecteur de facteur $\mathbf{x}_i$ est
-$$\hat{y_i} = \mathbf{x_i}^\intercal \hat{\beta} \quad i=1,\dots,n$$
-<..>
+$$\hat{y_i} = \mathbf{x_i}^\intercal \hat{\beta} \qquad i=1,\dots,n$$
+ou sous forme de matrice, si $\hat{\mathbf{y}} = (y_1,\dots,y_n)^\intercal$, $\hat{\mathbf{y}} = \mathbf{X}\hat{\beta}$. Donc
+
+$$\hat{\mathbf{y}} = \underbrace{\mathbf{X} (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top}_\mathbf{H} \mathbf{y}$$
+où $\mathbf{H}$ est la matrice chapeau, elle est symmétrique et idempotente :
+$$\mathbf{H} = \mathbf{H}^\top \qquad ; \qquad \mathbf{H}\mathbf{H} = \mathbf{H}$$
+
+L'hypothèse de normalité ne fonctionne pas avec le moindre carré.
 
 
 \end{document}
