@@ -719,4 +719,219 @@ $$\mu \in \left[ \bar{X} - t_{n-1, 1-\alpha/2} \sqrt{S^2/n}; \bar{X} + t_{n-1, 1
 \begin{center} \includegraphics[scale=0.4]{images/prop-x-s2-2.png} \end{center}
 
 
+\section{Test d'hypothèse à 1 population}
+
+Une \textbf{hypothèse} est une affirmation à propos d'un paramètre $\theta$ d'un échantillon aléatoire.
+
+L'\textbf{hypothèse nulle} notée $H_0 = \theta \in \Theta_0$ et dit l'affirmation à tester. L'hypothèse alternative est $H_1 = \theta \in \Theta_1$
+
+La décision de rejeter ou non l'hypothèse nulle $H_0$ est basée sur l'échantillon. Il y a 4 cas possibles :
+\begin{center} \includegraphics[scale=0.4]{images/hypothese-cas.png} \end{center}
+
+La probabilitée de faire une erreur de type 1 s'appelle le \textbf{niveau de signification} du test, et se dénote $\alpha$
+
+\medskip
+
+Si $H_0$ est "vous n'êtes pas malade" :
+
+\begin{itemize}
+    \item Erreur type 1 : Vous n'êtes pas malade, mais le test est positif (faux positif)
+    \item Erreur type 2 : Vous êtes malade, mais le test est négatif (faux négatif)
+\end{itemize}
+
+\subsection{Introduction}
+
+La décision de rejeter l'hypothèse nulle est basée sur un test statistique, noté $T(\cdot)$.
+
+Soit un échantillon $\mathbf{X} = \{X_1,\dots,X_n\}$ d'observations, $T(\mathbf{X}) : \mathbb{R}^n \rightarrow \mathbb{R}$. $T(\mathbf{X})$ est tel que sa distribution est connue
+
+\begin{itemize}
+    \item Pour un $\alpha$ choisi, on détermine la région de rejection $R_\alpha \in \mathbb{R}$, tel que $P(\text{type 1}) = \alpha$
+    \item On calcule $t=T(\mathbf{x})$ la valeur observée de $T(\mathbf{X})$ sous $H_0$
+    \item Décision : Si $t\in R_\alpha$, on rejette, sinon on accepte
+\end{itemize}
+
+\subsection{Single mean test, $\theta^2$ inconnu}
+
+Soit $X_1,\dots,X_n \sim \mathcal{N}(\mu,\sigma^2)$ indépendants et identiquement distribués, avec variance inconnue. On test
+$$H_0 : \mu = \mu_0$$
+contre $3$ alternatives :
+$$H_1 : \mu > \mu_0$$
+$$H_1 : \mu < \mu_0$$
+$$H_1 : \mu \neq \mu_0$$
+
+Si $H_0$ est vrai, un bon choix pour la statistique de test est la Student's T :
+$$T(\mathbf{X}) = \frac{\bar{X} - \mu_0}{\sqrt{\frac{S^2}{n}}}\sim t_{n-1}$$
+
+On trouve une valeur critique $c$ sous la supposition que $H_0$ est vrai :
+\begin{itemize}
+    \item $P(T(\mathbf{X} > c | H_0 \text{ est vrai})) = \alpha$
+    \item $P(T(\mathbf{X} < c | H_0 \text{ est vrai})) = \alpha$
+    \item $P(T(\mathbf{X}) < -c \text{ ou } T(\mathbf{X}) > c | H_0 \text{ est vrai}) = \alpha$
+\end{itemize}
+
+\begin{center} \includegraphics[scale=0.4]{images/single-mean-test.png} \end{center}
+
+On rejette $H_0$ au niveau $\alpha$ si
+\begin{itemize}
+    \item Pour $H_1 : \mu > \mu_0$, on rejette $H_0$ si $T(\mathbf{x}) > t_{n-1, 1-\alpha}$.
+    \item Pour $H_1 : \mu < \mu_0$, on rejette $H_0$ si $T(\mathbf{x}) < t_{n-1, \alpha}$.
+    \item Pour $H_1 : \mu \neq \mu_0$, on rejette $H_0$ si $T(\mathbf{x}) < t_{n-1, \alpha/2}$ ou $T(\mathbf{x}) > t_{n-1, 1-\alpha/2}$.
+\end{itemize}
+
+
+\subsection{Single variance test}
+
+Soit $X_1,\dots,X_n \sim \mathcal{N}(\mu,\sigma^2)$ indépendants et identiquement distribués, avec variance inconnue. On test
+$$H_0 : \sigma^2 = \sigma_0^2$$
+contre $3$ alternatives :
+$$H_1 : \sigma^2 \neq \sigma_0^2$$
+$$H_1 : \sigma^2 > \sigma_0^2$$
+$$H_1 : \sigma^2 < \sigma_0^2$$
+
+Un bon choix pour la statistique de test est la $\chi^2$
+$$T(\mathbf{X}) = (n-1) \frac{S^2}{\sigma_0^2} \sim \chi^2_{n-1}$$
+
+\begin{center} \includegraphics[scale=0.4]{images/single-variance-test.png} \end{center}
+
+On rejette $H_0$ au niveau $\alpha$ si
+\begin{itemize}
+    \item Pour $H_1 : \sigma^2 \neq \sigma_0^2$, on rejette $H_0$ si $T(\mathbf{x}) < \chi^2_{n-1, \alpha/2}$ ou $T(\mathbf{x}) > \chi^2_{n-1,1-\alpha/2}$.
+    \item Pour $H_1 : \sigma^2 > \sigma_0^2$, on rejette $H_0$ si $T(\mathbf{x}) > \chi^2_{n-1, 1-\alpha}$
+    \item Pour $H_1 : \sigma^2 < \sigma_0^2$, on rejette $H_0$ si $T(\mathbf{x}) < \chi^2_{n-1, \alpha}$
+\end{itemize}
+
+
+\subsection{P-valeur}
+
+<...>
+
+
+\section{Test d'hypothèse à 2 populations}
+
+\subsection{Comparaison de 2 médiane}
+
+On considère 2 populations avec la même variance
+
+\begin{align*}
+\mathbf{X}_1 = \{X_{1,1}, \dots, X_{1,n_1}\} \sim N(\mu_1, \sigma^2) &\Rightarrow \bar{X}_1 \sim N\left(\mu_1, \frac{\sigma^2}{n_1}\right) \\
+\mathbf{X}_2 = \{X_{2,1}, \dots, X_{2,n_2}\} \sim N(\mu_2, \sigma^2) &\Rightarrow \bar{X}_2 \sim N\left(\mu_2, \frac{\sigma^2}{n_2}\right)
+\end{align*}
+
+On test si les deux échantillons ont la même médiane :
+$$H_0 : \mu_1 - \mu_2 = \delta$$
+Contre
+$$H_1 : \mu_1 - \mu_2 > \delta$$
+$$H_1 : \mu_1 - \mu_2 < \delta$$
+$$H_1 : \mu_1 - \mu_2 \neq \delta$$
+
+\subsubsection{Cas 1 : $\sigma$ connu}
+
+$$\bar{X}_1 - \bar{X}_2 \sim N \left( \mu_1 - \mu_2, \frac{\sigma^2}{n_1} + \frac{\sigma^2}{n_2} \right)$$
+
+On utilise la statistique de test :
+
+$$
+T(\mathbf{X}_1, \mathbf{X}_2) = \frac{(\bar{X}_1 - \bar{X}_2) - \delta}{\sigma \sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim \mathcal{N}(0,1)
+$$
+
+On rejette $H_0 : \mu_1 - \mu_2 = \delta$ au niveau $\alpha$ si
+\begin{itemize}
+    \item Pour $H_1 : \mu_1 - \mu_2 > \delta$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) > z_{1-\alpha}$
+    \item Pour $H_1 : \mu_1 - \mu_2 < \delta$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < z_{\alpha}$
+    \item Pour $H_1 : \mu_1 - \mu_2 \neq \delta$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < z_{\alpha/2}$ ou $T(\mathbf{x}_1,\mathbf{x}_2) > z_{1-\alpha/2}$
+\end{itemize}
+où $z_\alpha$ est le percentile de $Z \sim \mathcal{N}(0,1) (P(Z \leq z_\alpha) = \alpha)$
+
+\subsubsection{Cas 2 : $\sigma$ connu}
+
+On utilise la statistique de test :
+$$
+T(\mathbf{X}_1, \mathbf{X}_2) = \frac{(\bar{X}_1 - \bar{X}_2) - \color{red}{\delta}}{S_{pool}\sqrt{\frac{1}{n_1} + \frac{1}{n_2}}} \sim t_{n_1+n_2-2}
+$$
+
+On rejette $H_0 : \mu_1 - \mu_2 = \delta$ au niveau $\alpha$ si
+\begin{itemize}
+    \item Pour $H_1 : \mu_1 - \mu_2 > \delta$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) > t_{n_1+n_2 -2,1-\alpha}$
+    \item Pour $H_1 : \mu_1 - \mu_2 < \delta$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < t_{n_1+n_2-2, \alpha}$
+    \item Pour $H_1 : \mu_1 - \mu_2 \neq \delta$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < t_{n_1+n_2-2, \alpha/2}$ ou $T(\mathbf{x}_1,\mathbf{x}_2) > t_{n_1+n_2-2, 1-\alpha/2}$
+\end{itemize}
+où $t_{n_1+n_2-2, \alpha}$ est le percentile $\alpha$ d'une Student's T
+
+
+\subsection{Comparaison de 2 variances}
+
+On considère 2 populations de variance différente :
+$$\mathbf{X}_1 = \{X_{1,1}, \dots, X_{1,n}\} \sim \mathcal{N} (\mu_1, \sigma_1^2)$$
+$$\mathbf{X}_2 = \{X_{2,1}, \dots, X_{2,n}\} \sim \mathcal{N} (\mu_2, \sigma_2^2)$$
+
+On test si les deux échantillons ont la même variance :
+$$H_0 : \sigma_1 = \sigma_2$$
+Contre
+$$H_1 : \sigma_1 \neq \sigma_2$$
+$$H_1 : \sigma_1 > \sigma_2$$
+$$H_1 : \sigma_1 < \sigma_2$$
+
+On utilise la statistique de test :
+
+$$T(\mathbf{X}_1, \mathbf{X}_2) = \frac{S_1^2}{S_2^2} \sim F_{n_1 - 1, n_2 - 1}$$
+
+On rejette $H_0 : \sigma^2_1 = \sigma^2_2$ au niveau $\alpha$ si
+\begin{itemize}
+    \item Pour $H_1 : \sigma_1 \neq \sigma_2$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < F_{n_1-1,n_2-1, \alpha/2}$ ou $T(\mathbf{x}_1,\mathbf{x}_2) > F_{n_1-1,n_2-1, 1-\alpha/2}$
+    \item Pour $H_1 : \sigma_1 > \sigma_2$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < F_{n_1-1,n_2-1, 1-\alpha}$
+    \item Pour $H_1 : \sigma_1 < \sigma_2$, on rejette $T(\mathbf{x}_1,\mathbf{x}_2) < F_{n_1-1,n_2-1, \alpha}$
+\end{itemize}
+où $F_{n_1-1,n_2-1, \alpha}$ est le percentile $\alpha$ d'une Fisher
+
+
+
+
+\section{Régression linéaire}
+
+On observe $n$ réalisations $y_i$ de $Y_i$ qui est lié à $d$ facteurs $(x_{i,1},\dots,x_{i,d})^\intercal$ pour $i = 1,\dots,n$. 
+$$Y_i = \beta_0 + \beta_1 x_{i,1} + \dots + \beta_d x_{i,d} + \epsilon_i \quad i = 1, \dots, n$$
+
+où $\epsilon_i \sim \mathcal{N}(0,\sigma^2)$
+
+Notation matricielle :
+$$
+\mathbf{Y} = \begin{pmatrix} Y_1 \\ \vdots \\ Y_n \end{pmatrix} \qquad
+\beta = \begin{pmatrix} \beta_0 \\ \vdots \\ \beta_d \end{pmatrix} \qquad
+\mathbf{X} = \begin{pmatrix} 1 & x_{1,1} & \dots & x_{1,d} \\ \vdots & \vdots & \ddots & \vdots \\ 1 & x_{n,1} & \dots & x_{n,d} \end{pmatrix}
+$$
+
+$\mathbf{Y}$ est de taille $n$, $\beta$ de taille $d+1$, et $\mathbf{X}$ de taille $n\times (d+1)$
+
+Le vecteur de bruit est noté $\epsilon$. Le vecteur de réalisation/observation de $\mathbf{Y}$ est $\mathbf{y}$. On obtient
+$$\mathbf{Y} = \mathbf{X}\beta + \epsilon$$
+
+\subsection{Moindre carré}
+
+La meilleur $\hat{y}$ prédiction de $Y$ pour une valeur $\mathbf{x}=(1,x_1,\dots,x_d)^\intercal$ est
+$$\hat{y} = \mathbb{E}(Y | \mathbf{x}) = \mathbf{x}^\top \beta.$$
+
+Mais $\beta$ et $\sigma^2$ sont inconnu, on va les estimer avec la maximisation de vraisemblance :
+
+On a $\theta = (\beta,\sigma)$ et conditionnelement à $\mathbf{x}_i$, la réponse est normale :
+$$ Y_i | \mathbf{x}_i \sim \mathcal{N}(\mathbf{x}_i^\top \boldsymbol{\beta}; \sigma^2) \quad i = 1, \dots, n $$
+
+L'estimation de $\theta$ maximise la fonction de vraisemblance $\log$ :
+\begin{align*}
+I(\theta) &= \sum_{i=1}^{n} \ln \left( \frac{1}{\sigma\sqrt{2\pi}} \exp \left( -\frac{1}{2} \frac{(y_i - \mathbf{x}_i^\top \beta)^2}{\sigma^2} \right) \right) \\
+&= \sum_{i=1}^{n} \left( -\ln(\sigma\sqrt{2\pi}) - \frac{1}{2} \left( \frac{(y_i - \mathbf{x}_i^\top \beta)^2}{\sigma^2} \right) \right) \\
+&\propto \underbrace{- \sum_{i=1}^{n} (y_i - \mathbf{x}_i^\top \beta)^2}_{(*)}
+\end{align*}
+Donc, pour un $\sigma > 0$ donné, l'estimation de $\beta$ minimise $*$
+
+$$\hat{\beta} = \arg_\beta \min (\mathbf{y} - \mathbf{X}\beta)^\intercal (\mathbf{y} - \mathbf{X} \beta) = \arg_\beta \min \sum_{i=1}^n (y_i - \mathbf{x}_i^\intercal \beta)^2$$
+$$\hat{\beta} = (\mathbf{X}^\intercal \mathbf{X})^{-1} \mathbf{X}^\intercal \mathbf{y}$$
+
+\bigskip
+
+La meilleur prédiction de $Y_i$ pour un vecteur de facteur $\mathbf{x}_i$ est
+$$\hat{y_i} = \mathbf{x_i}^\intercal \hat{\beta} \quad i=1,\dots,n$$
+<..>
+
+
 \end{document}
