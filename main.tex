@@ -1008,7 +1008,61 @@ $$ F^* = \frac{SSR / d}{SSE / (n-d-1)} \sim F_{d, n-(d+1)} $$
 
 <190>
 
-Soit $c_{j,j}$ 
+Soit $c_{j,j}$ l'élément diagonal $j$ de $(\mathbf{X}^\top \mathbf{X})^{-1}$. Les estimateurs des coefficients de régression linéaire $\hat{\beta} = (\hat{\beta}_0, \dots, \hat{\beta}_d)^\top$ sont des Student's T :
+$$\frac{\hat{\beta}_j - \beta_j}{\hat{\sigma}\sqrt{c_{jj}}} \sim t_{n-(d+1)}$$
+
+<193..199>
+<Slide 195 : typo Yi = B0 +>
+
+
+\section{Analyse de Variance (ANOVA)}
+
+Globalement juste de la régression linéaire
+
+
+\section{Modèles auto-régressif}
+
+\subsection{Time-series}
+
+Une \textbf{time-series} est un vecteur indexé par temps : $\mathbf{x} = (x_t)_{t=1,2,\dots,T}$, ddes réalisations de la variable aléatoire $(X_t)_{t=1,2,\dots,T}$.
+
+Si la pdf de $X_t$ est $f_t(x)$, la fonction moyenne est :
+$$\mu_t = \mathbb{E}(X_t) = \int_{-\infty}^{+\infty} x f_t(x) \,dx ,$$
+
+\medskip
+
+La fonction d'\textbf{autocovariance} $\gamma(t,s)$ est définie comme la covariance entre $X_t$ et $X_s$ :
+$$\gamma(t,s) = \mathbb{E}[(X_t - \mu_t)(X_s - \mu_s)] \quad \forall t, s \in \mathbb{N}.$$
+
+La fonction d'\textbf{autocorrelation} $\rho(t,s)$ est :
+$$\rho(t, s) = \frac{\gamma(t, s)}{\sqrt{\gamma(t, t)\gamma(s, s)}} \quad \forall t, s \in \mathbb{N}.$$
+
+\subsection{Procédé autorégressif}
+
+$\mathbf{AR(p)}$ : un procédé autoregressif d'ordre $p$ :
+\begin{align*}
+X_t &= \beta_1 X_{t-1} + \beta_2 X_{t-2} + \dots + \beta_p X_{t-p} + \epsilon_t , \\
+    &= \boldsymbol{\beta}^\top \mathbf{x}_{t-1:t-p} + \epsilon_t ,
+\end{align*}
+où $\epsilon_t$ est un procédé gaussien de moyenne nulle et de variance $\sigma^2$
+
+\subsection{Autoregression}
+
+Si on a $n$ observations, ce modèle est estimé comme une régression linéaire standard
+$$\mathbf{y} = \begin{pmatrix} x_{p+1} \\ \vdots \\ x_n \end{pmatrix} \qquad \mathbf{X} = \begin{pmatrix} x_p & \dots & x_1 \\ \vdots & \ddots & \vdots \\ x_{n-1} & \dots & x_{n-p} \end{pmatrix}$$
+L'estimateur de $\beta$ est obtenu par maximisation de vraisemblance log :
+$$\hat{\beta} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{y}.$$
+L'estimation de $X_t|\mathbf{x}_{t-1:t-p}$ est alors
+$$\widehat{x}_t = \widehat{\boldsymbol{\beta}}^{\text{T}} \mathbf{x}_{t-1:t-p}$$
+le variance de prédictions est estimée par
+$$\widehat{\sigma}^2 = \frac{1}{(T-p)-1} \sum_{t=p+1}^{T} (x_t - \widehat{x}_t)^2$$
+
+\medskip
+
+On peut aussi prédire $k$ période à l'avance
+$$\hat{x}_{t+k} = \hat{\beta}^\top \hat{\mathbf{x}}_{(t+k)-1:(t+k)-p}$$
+
+<218..220>
 
 
 \end{document}
