@@ -13,6 +13,7 @@ prompt = (
     "If you need to align = signs for example, use \\begin{align*}, careful as it already acts as $$, you can't put it inside $$"
     "Don't necessarily follow the style of the image, I prefer something that looks good rather than an exact copy, for example if there are small integral signs, make them big anyways"
     "For styled letters use \\mathcal{} (only when needed of course)"
+    "Don't take any colors into account"
     "Only output the LaTex code, no explanation, and put it as plain text, no ```latex."
 )
 

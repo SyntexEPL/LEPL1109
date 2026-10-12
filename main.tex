@@ -953,4 +953,62 @@ $$\mathbf{H} = \mathbf{H}^\top \qquad ; \qquad \mathbf{H}\mathbf{H} = \mathbf{H}
 L'hypothèse de normalité ne fonctionne pas avec le moindre carré.
 
 
+\subsection{Régression linéaire simple}
+
+$$Y_i = \beta_0 + \beta_1 x_i + \epsilon_i$$
+
+Alors
+
+$$\{\hat{\beta}_0, \hat{\beta}_1\} = \operatorname{arg}\min_{\beta_0, \beta_1} \sum_{i=1}^{n} (y_i - \beta_0 - \beta_1 x_i)^2 ,$$
+
+$$\hat{\beta_1} = \frac{{\sum_{i=1}^{n} (x_i-\bar{x})(y_i-\bar{y})}}{{\sum_{i=1}^{n} (x_i-\bar{x})^2}} = \frac{{S_{xy}}}{{S_{xx}}}$$
+$$\hat{\beta_0} = \bar{y} - \hat{\beta_1}\bar{x}$$
+
+Pour mesurer la qualitée du modèle, on sépare la variance des observations en 
+\begin{itemize}
+    \item Une variance expliquée par le modèle
+    \item Une variance résiduelle
+\end{itemize}
+
+Plus la variance expliquée par le modèle est grande, mieux c'est
+
+Soit $\hat{y_i} = \mathbf{x}_i^\top \hat{\beta}$ alors
+$$\underbrace{\sum_{i=1}^{n} (y_i - \bar{y})^2}_{\text{SS Total}} = \underbrace{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}_{\text{SS Error}} + \underbrace{\sum_{i=1}^{n} (\hat{y}_i - \bar{y})^2}_{\text{SS Regression}}$$
+(Pas dans le formulaire mais à connaitre)
+
+
+\section{Propriétés des coefficients de régression}
+
+$\hat{\beta}$ est un estimateur Gaussien non biaisé de $\beta$ :
+$$\hat{\beta} \sim \mathcal{N}\left(\beta, \sigma^2 \left(\mathbf{X}^\top \mathbf{X}\right)^{-1}\right)$$
+
+Un estimateur non biaisé de $\sigma^2$ est
+$$\hat{\sigma}^2 = \frac{1}{n-(d+1)} \underbrace{\left( \mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}} \right)^\top \left( \mathbf{Y} - \mathbf{X}\hat{\boldsymbol{\beta}} \right)}_{SSE}$$
+et
+$$(n-(d+1))\frac{\hat{\sigma}^2}{\sigma^2} = \frac{SSE}{\sigma^2} \sim \chi^2_{n-(d+1)}$$
+
+
+\subsection{Régression linéaire simple}
+
+$\hat{\beta_0}$ et $\hat{\beta_1}$ sont des estimateurs non biaisés ($\mathbb{E}(\hat{\beta}_{0 \text{ ou } 1}) = \beta_{0 \text{ ou } 1}$)
+
+Si $\bar{x^2} = \frac{1}{n} \sum_{i=1}^n x_i^2$, leur variances sont
+$$ V(\hat{\beta_0}) = \frac{\sigma^2 \overline{x^2}}{S_{xx}} \qquad ; \qquad V(\hat{\beta_1}) = \frac{\sigma^2}{S_{xx}} \qquad ; \qquad C(\hat{\beta_0}, \hat{\beta_1}) = \frac{-\sigma^2 \bar{x}}{S_{xx}} $$
+où $S_{xx} = \sum_{i=1}^n (x_i-\bar{x})^2$ (mais $\sigma^2$ est inconnu, en pratique on le remplace par $\hat{\sigma}^2$, alors $\hat{\beta}_0$ et $\hat{\beta}_1$ deviennet des student's T)
+
+\subsection{Test de signification de régression linéaire}
+
+<188>
+
+Puisque $SST = SSE + SSR$ et puisqu'une variabe aléatoire $\chi_n^2$ est une somme de $n$ variables aléatoires :
+$$\frac{SSR}{\sigma^2} = \frac{1}{\sigma^2} \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2 \sim \chi_d^2$$
+
+Alors, si $\beta_1 = \dots = \beta_d = 0$ :
+$$ F^* = \frac{SSR / d}{SSE / (n-d-1)} \sim F_{d, n-(d+1)} $$
+
+<190>
+
+Soit $c_{j,j}$ 
+
+
 \end{document}
