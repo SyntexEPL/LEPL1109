@@ -26,7 +26,7 @@ with open("latextool/gemini_key.txt") as f:
 
 img = Image.open(args[1])
 
-response = client.models.generate_content(model="gemini-2.5-flash", contents=[
+response = client.models.generate_content(model="gemini-3.1-flash-lite", contents=[
     img,
     prompt
 ])
