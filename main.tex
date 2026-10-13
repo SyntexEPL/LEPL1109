@@ -1021,8 +1021,63 @@ Rejeter $H_0$ au niveau de confiance $\alpha$
 Soit $c_{j,j}$ l'élément diagonal $j$ de $(\mathbf{X}^\top \mathbf{X})^{-1}$. Les estimateurs des coefficients de régression linéaire $\hat{\beta} = (\hat{\beta}_0, \dots, \hat{\beta}_d)^\top$ sont des Student's T :
 $$\frac{\hat{\beta}_j - \beta_j}{\hat{\sigma}\sqrt{c_{jj}}} \sim t_{n-(d+1)}$$
 
-<193..199>
-<Slide 195 : typo Yi = B0 +>
+\medskip
+
+On utilise ce résultat pour tester la signification de chaque $\beta_j$ :
+$$H_0 : \quad \beta_j = \beta_{j,0}$$
+contre 3 alternatives :
+$$H_1 : \beta_j > \beta_{j,0}$$
+$$H_1 : \beta_j < \beta_{j,0}$$
+$$H_1 : \beta_j \neq \beta_{j,0}$$
+avec la statistique de test $T_j^* = \frac{\hat{\beta}_j - \beta_j}{\hat{\sigma}\sqrt{c_{jj}}} \sim t_{n-(d+1)}$
+
+On rejette $H_0$ au niveau $\alpha$ si
+\begin{itemize}
+    \item Pour $H_1 : \beta_j > \beta_{j,0}$, on rejette $T_j^* > t_{n-d-1,1-\alpha}$
+    \item Pour $H_1 : \beta_j < \beta_{j,0}$, on rejette $T_j^* < t_{n-d-1,\alpha}$
+    \item Pour $H_1 : \beta_j \neq \beta_{j,0}$, on rejette $T_j^* < t_{n-d-1,\alpha/2}$ ou $T_j^* > t_{n-d-1,1-\alpha/2}$
+\end{itemize}
+
+Un \textbf{interval de confiance} pour $\beta_j$ au niveau $1 - \alpha$ est un interval $[\beta_{j,L},\beta_{j,U}]$ tel que $\beta_j$ est dans cet interval avec probabilité $1-\alpha$
+
+Puisque c'est $\sim$ à une student's T, on peut trouver
+$$\left[ \widehat{\beta}_j + t_{n-d-1, \alpha/2} \widehat{\sigma} \sqrt{c_{jj}} ; \widehat{\beta}_j + t_{n-d-1, 1-\alpha/2} \widehat{\sigma} \sqrt{c_{jj}} \right]$$
+
+
+\subsection{Test de $\beta$ : Régression linéaire simple}
+
+Lorsque $d=1$, $Y_i = \beta_0 + \beta_1 x_i + \epsilon_i$, les coefficients $c_{0,0}$ et $c_{1,1}$ sont simple à calculer :
+$$c_{0,0} = \frac{\overline{x^2}}{S_{xx}} \qquad c_{1,1} = \frac{1}{S_{xx}}$$
+où $\overline{x^2} = \frac{1}{2} \sum_{i=1}^n x_i^2$, et $S_{xx} = \sum_{i=1}^n (x_i - \bar{x})^2$
+\begin{itemize}
+    \item On test
+    $$H_0 : \beta_1 = \beta_{1,0}$$
+    $$H_1 : \beta_1 \neq \beta_{1,0}$$
+
+    avec la statistique de test $T_1^* = \frac{\hat{\beta_1} - \beta_{1,0}}{\hat{\sigma} \sqrt{S_{xx}^{-1}}} \sim t_{n-2}$. L'interface de confiance est
+    $$\beta_1 \in \left[ \widehat{\beta}_1 - t_{n-d-1, 1-\alpha/2} \, \widehat{\sigma} \sqrt{S_{xx}^{-1}} \, ; \, \widehat{\beta}_1 + t_{n-d-1, 1-\alpha/2} \, \widehat{\sigma} \sqrt{S_{xx}^{-1}} \right]$$
+
+    \item On test
+    $$H_0 : \beta_0 = \beta_{0,0}$$
+    $$H_1 : \beta_0 \neq \beta_{0,0}$$
+
+    avec la statistique de test $T_0^* = \frac{\hat{\beta_0} - \beta_{0,0}}{\hat{\sigma} \sqrt{\overline{x^2}S_{xx}^{-1}}} \sim t_{n-2}$. L'interface de confiance est
+    $$\beta_0 \in \left[ \widehat{\beta}_0 - t_{n-d-1, 1-\alpha/2} \, \widehat{\sigma} \sqrt{\overline{x^2}S_{xx}^{-1}} \, ; \, \widehat{\beta}_0 + t_{n-d-1, 1-\alpha/2} \, \widehat{\sigma} \sqrt{\overline{x^2}S_{xx}^{-1}} \right]$$
+\end{itemize}
+
+
+\subsection{Interval de prédiction, régression simple}
+
+Pour un modèle $Y = \beta_0 + \beta_1 X + \epsilon$, la prédiction pour une valeur non observée $X = x_0$ est
+$$\hat{y_0} = \hat{\beta_0} + \hat{\beta_1} x_0$$
+L'\textbf{interval de prédiction} pour $Y_0$ au niveau $\alpha$ est donné par
+$$\left[ \hat{y}_0 - S_{pred} \, t_{n-2; 1-\frac{\alpha}{2}} \ ; \ \hat{y}_0 + S_{pred} \, t_{n-2; 1-\frac{\alpha}{2}} \right]$$
+
+où
+
+$$S_{pred}^2 = \hat{\sigma}^2 \left( 1 + \frac{1}{n} + \frac{(x_0 - \bar{x})^2}{S_{xx}} \right)$$
+
+
 
 
 \section{Analyse de Variance (ANOVA)}
