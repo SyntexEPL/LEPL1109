@@ -26,6 +26,10 @@
 
 \break
 
+\refstepcounter{part}              % passe à la partie suivante
+\part*{Statistiques}                  % titre non numéroté
+\addcontentsline{toc}{part}{Statistiques}
+
 \section{Rappels}
 
 \subsection{Variable aléatoire}
@@ -1147,6 +1151,125 @@ $$f(\hat{x}_t | \hat{\beta}) = \frac{1}{\hat{\sigma}\sqrt{2\pi}} \exp\left( -\fr
 où $n$ est le nombre de données, $p$ le nombre de paramètres dans le modèle et $L(p)$ le maximum de la fonction de vraisemblance du modèle
 
 Le minimum indique le nombre optimal de lags
+
+
+\break
+\refstepcounter{part}              % passe à la partie suivante
+\part*{Data}                  % titre non numéroté
+\addcontentsline{toc}{part}{Data}
+
+\section{Supervised Learning}
+
+\subsection{Introduction}
+
+\subsubsection{Notations et conventions}
+
+La dimension "$N$" est réservée pour la taille d'un set (de données)
+
+Toutes les matrices (et vecteurs) avec $N$ lignes sont en \textbf{gras}
+
+Les variables aléatoires sont noté en majuscule
+
+La pmf/pdf d'un fonction discrète/continue, avec la variable aléatoire $X$ est "$p_X$"
+
+
+\subsubsection{Regression vs Classification}
+
+\begin{itemize}
+    \item Regression : prédiction de valeurs ordonnées (ou quantitatives)
+    \item Classification : prédiction de classes ou catégories (ou qualitatives)
+\end{itemize}
+
+Dummy variable (one-hot encoding) : Valeur qualitative $\rightarrow$ quantitative, en faisant une dimension par catégorie (vecteur avec un seul $1$ pour une catégorie)
+
+\subsubsection{Lier une entrée à une sortie}
+
+Entrée $X = (X_1,\dots,X_p)^\top \in \mathbb{R}^p$
+
+Sortie $Y \in \mathcal{Y}$ (quantitatif ou qualitatif)
+
+Hypothèse : $Y$ et $X$ sont liés imparfaitement (avec un peu de bruit)
+
+Il existe une fonction $f : \mathbb{R}^p \rightarrow \mathcal{Y}$ tel que :
+\begin{itemize}
+    \item Pour une régression ($\mathcal{Y} = \mathbb{R}$) :
+    $$Y = f(X) + \epsilon$$
+    pour un bruit aléatoire $\epsilon \in \mathbb{R}$
+    \item Pour une classification binaire (par exemple $\mathcal{Y} = \mathcal{G} := \{0,1\}$)
+    $$P(Y = f(X)) = 1 - \eta$$
+    $$P(Y \neq f(X)) = \eta$$
+    pour une erreur de misclassification $0 \leq \eta \leq 1$
+\end{itemize}
+
+\textbf{En théorie} : On trouve une estimation $\hat{f}$ de $f$ pour faire des prédictions (ou inférences) de $Y$ en sachant $X$
+
+\textbf{En pratique} : On trouve un estimateur fiable $\hat{f}$ de $f$ pour faire des prédictions (ou inférences) d'un échantillon de $Y$ en sachant un échantillon de $X$ (le dataset)
+
+
+\subsection{Modèle linéaire}
+
+$$\hat{Y} = f_{\hat{\beta}} (X) := \sum_{j=1}^p X_j \hat{\beta}_j = \begin{pmatrix}X_1 & \dots & X_p\end{pmatrix} \begin{pmatrix}\hat{\beta}_1 \\ \vdots \\ \hat{\beta}_p\end{pmatrix} = X^\top \hat{\beta}$$
+
+(On peut ajouter un $\beta_0$)
+
+\medskip
+
+\subsubsection{Fitting}
+
+Soit le set
+$$\mathcal{T} := \{(x_i, y_i)\}_{i=1}^N \subset \mathbb{R}^p \times \mathbb{R}$$
+
+On choisit de noter le minimiseur $\hat{\beta}$, et on définit le \textbf{risque empirique} :
+$$\hat{R}(\beta) := \frac{1}{N} \sum_{i=1}^{N} (y_i - x_i^\top \beta)^2 = \frac{1}{N} \| \mathbf{y} - \mathbf{X}\beta \|_2^2.$$
+
+avec
+
+$\mathbf{X} = (x_1,\dots,x_N)^\top \in \mathbb{R}^{N\times p}$
+
+$\mathbf{y} = (y_1,\dots, y_N)^\top, ||\mathbf{u}||_2^2 := \mathbf{u}^\top \mathbf{u}$
+
+(On minimise la somme des distances verticales carrée, pas la distance entre $\mathcal{T}$ et $\mathcal{P}$ (l'hyperplan fitté))
+
+
+\textbf{Solution} :
+
+$\hat{R}$ minimum sur $\hat{\beta}$ si
+$$\nabla_{\beta} \hat{R}(\hat{\beta}) = 2\mathbf{X}^{\top}(\mathbf{y} - \mathbf{X}\hat{\beta}) = 0 \implies \hat{\beta} := \mathbf{X}^{\dagger}\mathbf{y} = (\mathbf{X}^{\top}\mathbf{X})^{-1}\mathbf{X}^{\top}\mathbf{y}$$
+(On suppose $N>p$ et $\mathbf{X}^\top \mathbf{X}$ inversible)
+
+\textbf{Fitting} :
+
+$$\hat{\mathbf{y}} = \mathbf{X} \hat{\beta} = (x_1^\top \hat{\beta},\dots, x_N^\top \hat{\beta}) = \mathbf{Hy} = \mathbf{X X^\dagger y}$$
+
+
+\subsubsection{Classification avec un modèle linéaire}
+
+On introduit $\mathcal{B}_\tau$ qui converti un nombre continu en une valeur binaire $Y \in \{0,1\}$
+
+La classe estimée $\hat{G}$ de $x$ est
+$$\hat{G}(x) = \mathcal{B}_\tau (x^\top \hat{\beta}) := \begin{cases}
+    1 \quad \text{ si } (x^\top \hat{\beta}) > \tau\\
+    0 \quad \text{ si } (x^\top \hat{\beta}) \leq \tau
+\end{cases}$$
+
+\subsection{Méthode $k$-Nearest Neighbors}
+
+Soit un nombre de voisins $k \in \mathbb{N}$, on définit
+$$N_k(x) : \text{L'ensemble de $k$ points les plus proches de $x$ dans $\{x_i\}_{i=1}^N \subset \mathbb{R}^p$}$$
+
+$$\hat{Y}(x) = \frac{1}{k} \sum_{i:\: x_i \in N_k(x)} y_i$$
+
+La prédiction est la moyenne local, elle est non-paramétrique
+
+\subsubsection{Classification}
+
+On peut utiliser $\mathcal{B}_\tau$ à nouveau
+
+Si $\tau = 0.5$, on a juste un "vote de majorité"
+
+\medskip
+
+Pour $K \geq 2$ nombre de classes, on applique le "one-hot encoding" à tout les $y_i$, puis on applique la régression k-NN, et on assigne à $x$ l'indice du maximum
 
 
 \end{document}
