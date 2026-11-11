@@ -14,7 +14,7 @@
 \newcommand{\ind}{\perp\!\!\!\!\perp}
 
 \title{Statistiques et science des données (LEPL1109)}
-\author{\textit{Réalisé par}\\\textbf{Quentin Aubecq}\\\textit{avec l'aide de}\\ \_ \\\textit{relu par}\\ \textbf{Basile Audeval}}
+\author{\textit{Réalisé par}\\\textbf{Quentin Aubecq}\\\textit{avec l'aide de}\\ \_ \\\textit{relu par}\\ Basile Audeval\\ Arthur Marot}
 \date{2026}
 
 \begin{document} 
@@ -426,7 +426,7 @@ $$p_{\mathbf{X}_A|\mathbf{X}_B} (\mathbf{x}_A|\mathbf{x}_B) = \frac{p((\mathbf{x
 \textbf{Propriétés} :
 
 \begin{itemize}
-    \item $\mathbb{E}(\alpha \mathbf{X} + \beta \mathbb{Y}) = \alpha \mathbb{E}(\mathbf{X}) + \beta \mathbb{E}(\mathbf{Y})$
+    \item $\mathbb{E}(\alpha \mathbf{X} + \beta \mathbf{Y}) = \alpha \mathbb{E}(\mathbf{X}) + \beta \mathbb{E}(\mathbf{Y})$
     \item Si $\mathbf{X}$ et $\mathbf{Y}$ indépendants : $\mathbb{E}(\mathbf{X}^\top \mathbf{Y}) = \mathbb{E}(\mathbf{X})^\top \mathbb{E}(\mathbf{Y})$
 \end{itemize}
 
@@ -643,7 +643,7 @@ Soit $X^* = (X_1^*, \dots, X_n^*)$ tel que $P(X_i^* = X_j) = \frac{1}{n}$ pour $
 
 $\hat{\theta}(X^*)$ est une réplication bootstrap de $\hat{\theta}(X)$. Le nombre d'échantillon bootstrap possible est $C_{2n-1}^n = \frac{(2n-1)!}{n!(n-1)!}$
 
-La variance est obtenue en tirant $M$ échantillon bootstrap :
+La variance est obtenue en tirant $M$ échantillons bootstrap :
 $$\mathbf{X}^{*m} = (X_1^{*m},\dots,X_n^{*m}) m = 1\dots M$$
 
 \bigskip
@@ -769,8 +769,8 @@ $$T(\mathbf{X}) = \frac{\bar{X} - \mu_0}{\sqrt{\frac{S^2}{n}}}\sim t_{n-1}$$
 
 On trouve une valeur critique $c$ sous la supposition que $H_0$ est vrai :
 \begin{itemize}
-    \item $P(T(\mathbf{X} > c | H_0 \text{ est vrai})) = \alpha$
-    \item $P(T(\mathbf{X} < c | H_0 \text{ est vrai})) = \alpha$
+    \item $P(T(\mathbf{X}) > c | H_0 \text{ est vrai}) = \alpha$
+    \item $P(T(\mathbf{X}) < c | H_0 \text{ est vrai}) = \alpha$
     \item $P(T(\mathbf{X}) < -c \text{ ou } T(\mathbf{X}) > c | H_0 \text{ est vrai}) = \alpha$
 \end{itemize}
 
@@ -1160,6 +1160,8 @@ Le minimum indique le nombre optimal de lags
 
 \section{Supervised Learning}
 
+Hyper paramètre : Paramètre pas appris lors de l'entrainement, mais en utilisant plusieurs entrainement par exemple
+
 \subsection{Introduction}
 
 \subsubsection{Notations et conventions}
@@ -1270,6 +1272,135 @@ Si $\tau = 0.5$, on a juste un "vote de majorité"
 \medskip
 
 Pour $K \geq 2$ nombre de classes, on applique le "one-hot encoding" à tout les $y_i$, puis on applique la régression k-NN, et on assigne à $x$ l'indice du maximum
+
+\subsubsection{Erreur}
+
+$$\text{Error} := \text{Err}(\mathcal{T}) = \frac{1}{N} \sum_{i=1}^{N} I(y_i \neq \hat{f}(x_i))$$
+
+\begin{center} \includegraphics[scale=0.4]{images/knn-error.png} \end{center}
+
+\subsubsection{Nombre effectif de paramètres}
+
+Le nombre effectif de paramètres (ou flexibilité) de k-NN est
+
+$$\boxed{\frac{N}{k}}$$
+
+
+\subsection{Méthode de reéchantillonage}
+
+Si on doit trouver un hyperparamètre $\gamma$ mais qu'on ne dispose pas d'un autre dataset, on peut utiliser le reéchantillonage :
+
+\begin{itemize}
+    \item On prend des échantillons aléatoirement dans le set d'entrainement
+    \item On réentraine le modèle sur ces échantillons
+\end{itemize}
+
+\begin{center} \includegraphics[scale=0.4]{images/resampling.png} \end{center}
+
+\subsubsection{Set de validation}
+
+Le set de validation permet d'estimer l'erreur de test
+
+Pour une séparation 50/50 :
+
+\begin{itemize}
+    \item Soit un nombre $N$ d'observations $\{(x_i, y_i)\}_{i=1}^N$, un modèle $\hat{f}$, et une permutation aléatoire $\pi : [N] \rightarrow [N]$, on forme
+    \begin{itemize}
+        \item Set d'entrainement : $T_{tr} = \{(x_{\pi(i)}, y_{\pi(i)})\}_{i=1}^{N/2}$
+        \item Set de validation : $T_{v} = \{(x_{pi(i)}, y_{\pi(i)})\}_{i=N/2 + 1}^N$
+    \end{itemize}
+    \item On entraine $\hat{f}$ sur $T_{tr}$, et on calcul l'erreur de validation :
+    \begin{align*}
+        \text{MSE}_v &:= \text{MSE}(T_v) = \frac{2}{N} \sum_{i=(N/2)+1}^N (y_{\pi(i)} - \hat{f} (x_{\pi(i)}))^2 \qquad \text{(régression)}\\
+        \text{Err}_v &:= \text{Err}(T_v) = \frac{2}{N} \sum_{i=(N/2)+1}^N I(y_{\pi(i)} \neq \hat{f}(x_{\pi(i)})) \qquad \text{(classification)} 
+    \end{align*}
+\end{itemize}
+
+\subsubsection{Leave-One-Out Cross-Validation}
+
+Set d'entrainement de taille $N-1$, set de validation de taille $1$
+
+\begin{itemize}
+    \item On définit $\mathcal{T}_i := \{(x_j,y_i): j \in [N], j\neq i\} \; \text{for} \: 1 \leq i \leq N$
+    \item On entraine le modèle ($\hat{f}_i$) sur $\mathcal{T}_i$ et on calcul l'erreur de validation :
+    \begin{align*}
+        \text{MSE}_i &:= \text{MSE}(\{(x_i, y_i)\}) = (y_i - \hat{f}_i(x_i))^2 \qquad \text{(régression)}\\
+        \text{Err}_i &:= \text{Err}(\{(x_i, y_i)\}) = I(y_i \neq \hat{f}_i(x_i)) \qquad \text{(classification)}
+    \end{align*}
+    L'estimation de l'erreur de test est la moyenne de toutes les erreurs de prédiction
+\end{itemize}
+
+\textbf{Avantages} : Bonne estimation de l'erreur de test, plus simple de détecter les paramètres optimaux (k dans k-NN)
+
+\textbf{Désavantages} : Il faut entrainer $N$ fois
+
+
+\subsubsection{K-Fold Cross-Validation}
+
+Pareil que Leave-One-Out, avec le set séparé en $K$, et chaque fois une des parties pour la validation
+
+
+\subsection{Plus sur les méthodes de classification}
+
+La régression linéaire ne fonctionne pas bien pour la classification
+
+\subsubsection{Régression logistique (1D)}
+
+Au lieu de prédire $Y$ directement, on prédit la probabilitée de $Y = 1$ (ou $0$)
+
+Une ligne n'est pas bornée ($[0,1]$), on utilise donc une sigmoid :
+$$h(X) = h_\beta(X) := S(\beta_0 + \beta_1 X) := \frac{\exp(\beta_0 + \beta_1 X)}{1 + \exp(\beta_0 + \beta_1 X)}$$
+
+Pour classifier, on prend ensuite un seuil $p^*$, si la probabilitée donnée par le modèle est plus haute, l'élément fait parti de la classe
+
+La classe estimée $\hat{G}(x)$ de $x\in \mathbb{R}$ est :
+\begin{align*}
+\hat{G}(x) &= \begin{cases} 
+1 & \text{si } P(Y=1|X=x) \ge p^*, \\
+0 & \text{sinon}
+\end{cases} \\
+&= \begin{cases} 
+1 & \text{si } \log \frac{P(Y=1|X=x)}{P(Y=0|X=x)} \ge \tau^* := \log \frac{p^*}{1-p^*}, \\
+0 & \text{sinon}
+\end{cases} \\
+&= \begin{cases} 
+1 & \text{si } \beta_0 + \beta_1 x \ge \tau^*, \\
+0 & \text{sinon}
+\end{cases}
+\end{align*}
+
+On définit le \textbf{logit} tel que, avec $h(X) = S(\beta_0 + \beta_1 X)$ :
+$$\text{logit}(h(X)) := S^{-1}(h(X)) = \log\left(\frac{h(X)}{1 - h(X)}\right) = \log\left(\frac{P(Y=1|X)}{P(Y=0|X)}\right) = \beta_0 + \beta_1 X \in \mathbb{R}$$
+
+Si $\text{logit}(h(X)) >> 0$, $Y=1$ est certain
+
+Si $\text{logit}(h(X)) << 0$, $Y=0$ est certain
+
+Si $\text{logit}(h(X)) = 0$, les deux sont équiprobables
+
+\medskip
+
+Pour $p$ entrées/dimensions :
+
+$$h(X) = \frac{\exp(\beta^\top X)}{1 + \exp(\beta^\top X)}$$
+avec $\beta_0$ l'intercept et $(\beta_1,\dots,\beta_p)^\top$
+
+\subsubsection{Entrainement de la régression logistique}
+
+On utilise l'estimation du maximum de vraisemblance (MLE)
+\begin{itemize}
+    \item 
+\end{itemize}
+
+<... Slide 33,34>
+
+On obtient
+
+$$\hat{\beta} := \operatorname*{arg\,min}_{\beta} \mathcal{L}(\beta) = \sum_{i=1}^{N} \log(1 + e^{\beta^{\top} x_i}) - y_i \beta^{\top} x_i$$
+
+On peut montrer
+$$\nabla_{\beta} \mathcal{L}(\beta) = \sum_{i=1}^{N} (S(\beta^{\top} x_i) - y_i) x_i \Rightarrow \text{gradient simple}$$
+
 
 
 \end{document}
