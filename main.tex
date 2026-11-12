@@ -1389,12 +1389,31 @@ avec $\beta_0$ l'intercept et $(\beta_1,\dots,\beta_p)^\top$
 
 On utilise l'estimation du maximum de vraisemblance (MLE)
 \begin{itemize}
-    \item 
+    \item $Y|X$ est binaire, et $p(Y=1|X=x) = h_\beta(x) \; \rightarrow \; Y|X \approx \text{Ber}(h_\beta(x))$
+    \item Sous le modèle de régression logistique, la vraisemblance de $Y=y$ en sachant $X=x$ est :
+    $$P(Y = y | X = x) = \begin{cases} h_{\beta}(x) & \text{si } y = 1 \\ 1 - h_{\beta}(x) & \text{si } y = 0 \end{cases} = h_{\beta}(x)^y (1 - h_{\beta}(x))^{1-y}$$
+    \item Soit la base de donnée $\mathcal{T} = \{(x_i,y_i)\}_{i=1}^N$, la vraisemblance de $\mathcal{T}$ est :
+    \begin{align*}
+    L(y_1, \dots, y_N | \beta, x_1, \dots, x_N) &:= p(Y_1 = y_1, \dots, Y_N = y_N | X_1 = x_1, \dots, X_N = x_N) \\
+    &= \prod_{i=1}^{N} p(Y_i = y_i | X_i = x_i) \\
+    &= \prod_{i=1}^{N} h_\beta(x_i)^{y_i} (1 - h_\beta(x_i))^{1-y_i}
+    \end{align*}
 \end{itemize}
 
-<... Slide 33,34>
+Maximiser $L$ est équivalent à minimiser la log-vraisemblance négative $\mathcal{L}(\beta)$ :
 
-On obtient
+\begin{align*}
+\mathcal{L}(\beta) = \mathcal{L}(\beta; \mathcal{T}) &:= -\log L(y_1, \dots, y_N | \beta, x_1, \dots, x_N) \\
+&:= -\left( \sum_{i=1}^{N} y_i \log h_\beta(x_i) + (1 - y_i) \log(1 - h_\beta(x_i)) \right) \\
+&:= \sum_{i=1}^{N} \log(1 + e^{\beta^\top x_i}) - y_i \beta^\top x_i
+\end{align*}
+
+
+$\mathcal{L}$ est convexe, on peut donc trouver un minimum
+
+\medskip
+
+On obtient donc $\hat{\beta}$ avec
 
 $$\hat{\beta} := \operatorname*{arg\,min}_{\beta} \mathcal{L}(\beta) = \sum_{i=1}^{N} \log(1 + e^{\beta^{\top} x_i}) - y_i \beta^{\top} x_i$$
 
