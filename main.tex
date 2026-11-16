@@ -1339,12 +1339,11 @@ Set d'entrainement de taille $N-1$, set de validation de taille $1$
 
 Pareil que Leave-One-Out, avec le set séparé en $K$, et chaque fois une des parties pour la validation
 
-
-\subsection{Plus sur les méthodes de classification}
+\subsection{Régression logistique}
 
 La régression linéaire ne fonctionne pas bien pour la classification
 
-\subsubsection{Régression logistique (1D)}
+\medskip
 
 Au lieu de prédire $Y$ directement, on prédit la probabilitée de $Y = 1$ (ou $0$)
 
@@ -1385,7 +1384,7 @@ Pour $p$ entrées/dimensions :
 $$h(X) = \frac{\exp(\beta^\top X)}{1 + \exp(\beta^\top X)}$$
 avec $\beta_0$ l'intercept et $(\beta_1,\dots,\beta_p)^\top$
 
-\subsubsection{Entrainement de la régression logistique}
+\subsubsection{Entrainement (Fitting)}
 
 On utilise l'estimation du maximum de vraisemblance (MLE)
 \begin{itemize}
@@ -1420,6 +1419,35 @@ $$\hat{\beta} := \operatorname*{arg\,min}_{\beta} \mathcal{L}(\beta) = \sum_{i=1
 On peut montrer
 $$\nabla_{\beta} \mathcal{L}(\beta) = \sum_{i=1}^{N} (S(\beta^{\top} x_i) - y_i) x_i \Rightarrow \text{gradient simple}$$
 
+\subsubsection{Analyse de performance}
+
+On peut mesurer l'\textbf{accuracy} (exactitude) empirique :
+$$\text{Acc}^{\text{emp}}(\hat{G}) := \frac{1}{N} \sum_{i=1}^{N} I(y_i = \hat{G}(x_i)) = 1 - \frac{1}{N} \sum_{i=1}^{N} I(y_i \neq \hat{G}(x_i)) = 1 - \text{Err}$$
+
+On définit $4$ autres métriques :
+\begin{itemize}
+    \item TP : True Positive
+    \item FP : False Positive
+    \item FN : False Negative
+    \item TN : True Negative
+\end{itemize}
+
+\textbf{Matrice de confusion} : Matrice $\mathcal{C}$ tel que $\mathcal{C}_{ij}$ est le nombre d'éléments de class $j$ classifié dans la classe $i$
+
+\medskip
+
+\textbf{Précision} :
+$$\text{Pre}^{\text{emp}}(\hat{G}) = \frac{TP}{TP + FP} \approx \text{Pre}(\hat{G}) := P(Y=1 \mid \hat{G}(X)=1) = \frac{P(Y=1 \cap \hat{G}(X)=1)}{P(\hat{G}(X)=1)}$$
+
+\textbf{Recall} (rappel) :
+$$\text{Rec}^{\text{emp}}(\hat{G}) = \frac{TP}{TP + FN} \approx \text{Rec}(\hat{G}) := P(\hat{G}(X) = 1 | Y = 1) = \frac{P(\hat{G}(X) = 1 \ \& \ Y = 1)}{P(Y = 1)}$$
+
+On peut optimiser $p^*$ en fonction de la précision et du recall. On aura un tradeoff, on ne peut pas minimiser les deux.
+
+
+\section{Unsupervised Learning}
+
+<..39>
 
 
 \end{document}
