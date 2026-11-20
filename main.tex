@@ -1447,7 +1447,68 @@ On peut optimiser $p^*$ en fonction de la précision et du recall. On aura un tr
 
 \section{Unsupervised Learning}
 
-<..39>
+\subsection{Réduction de la dimensionnalité}
+
+Transformer $\chi := \{x_i \in \mathbb{R}^p\}_{i=1}^N \subset \mathbb{R}^p$ en $\chi ' := \{x_i' \in \mathbb{R}^{p'}\}_{i=1}^N \subset \mathbb{R}^{p'}$, avec $p'<<p$ et $\chi'$ qui préserve les informations essentiel à propos de chaque élément de $\chi$
+
+\subsection{Analyse du composant principal (PCA)}
+
+Permet de trouver les "meilleurs" axes pour représenter un dataset $\chi$, pour la PCA, les axes qui \textbf{maximisent la variance} du dataset
+
+\subsubsection{Variance directionnelle}
+
+Soit une direction $\varphi := (\varphi_1,\dots,\varphi_p)^\top \in \mathbb{R}^p$, avec $||\phi||^2 = 1$, on calcule la projection de tous les points de $\chi$ sur $\varphi$ :
+$$\mathcal{Z}_{\varphi} = \left\{ z_i := x_i^{\top} \varphi \right\}_{i=1}^{N} \subset \mathbb{R}$$
+et la variance $V$ de toutes les projections
+$$V(\varphi) := \frac{1}{N} \sum_{i=1}^N z_i^2$$
+Si on définit
+$$\mathbf{X} \varphi = \begin{pmatrix}
+x_1^\top \varphi \\
+\vdots \\
+x_N^\top \varphi
+\end{pmatrix} \in \mathbb{R}^N$$
+alors $V(\varphi) = \frac{1}{N}||\mathbf{X}_\varphi||^2$
+
+\subsubsection{Composantes principales}
+
+La composante principale est le vecteur $\varphi_{(1)} \in \mathbb{R}^p$ qui maximise la variance de $\mathcal{Z}_\phi$
+$$\varphi_{(1)} = \underset{\varphi: \|\varphi\|=1}{\arg \max} \frac{1}{N} \varphi^\top X^\top X \varphi$$
+
+Soit la covariance empirique $C$ de $\chi$ définie par
+$$C := \frac{1}{N} \mathbf{X}^\top \mathbf{X} \in \mathbb{R}^{p\times p}$$
+Le vecteur $\varphi$ est le vecteur propre dominant $\varphi_{(1)}$ de $C$ avec
+$$C_{\varphi{(1)}} = \lambda_\text{max} \varphi_{(1)} \qquad \text{et} \qquad \lambda_\text{max} = V(\varphi_{(1)})$$
+
+$k^\text{ème}$ composante principale $\varphi_{(k)}$ : Maximise $V$ sous la contrainte d'être perpendiculaire à tous les $\varphi$ précédent
+
+\medskip
+
+Transformée PCA inverse : Puisque $\{\varphi_{(j)}\}_{j=1}^k$ est une base orthonormée, on peut projeter une valeur sur $\mathbb{R}^p$ avec
+$$x_i \in \mathbb{R}^p \to x_i' := \sum_{j=1}^{k} z_{i,j} \cdot \varphi_j \in \mathbb{R}^p$$
+
+\subsubsection{Combien de composante garder}
+
+On suppose des données centrée ($\sum_{i=1}^N x_i = 0$)
+
+Pour un $j \in [p]$ fixé et $i\in[N]$, on définit $\chi_j := \{x_{ij}\}_{i=1}^N \subset \mathbb{R}$
+
+($x_{ij}$ est la $j^\text{ème}$ feature du $i^\text{ème}$ échantillon de $X \in \mathbb{R}^p$)
+
+\smallskip
+
+La variabilité de $\chi_j$ est défini
+$$V_{\chi_j} = \frac{1}{N} \sum_{i=1}^N x_{ij}^2$$
+
+La variance totale de $\chi$ est la somme des variances de toutes les features
+$$V_\chi := \sum_{j=1}^p V_{\chi_j} = \sum_{j=1}^p \frac{1}{N} \sum_{i=1}^N x_{ij}^2$$
+
+<...>
+
+\subsection{Méthodes de Clusterisation}
+
+\subsubsection{K-Means}
+
+
 
 
 \end{document}
